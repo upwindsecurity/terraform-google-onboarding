@@ -8,6 +8,7 @@ variable "upwind_apis" {
     "compute.googleapis.com",
     "iam.googleapis.com",
     "container.googleapis.com",
+    "sts.googleapis.com",
   ]
 }
 
@@ -113,23 +114,6 @@ variable "upwind_integration_endpoint" {
   description = "The Integration API endpoint."
   type        = string
   default     = "https://integration.upwind.io"
-}
-
-variable "create_organizational_credentials" {
-  description = "Set to true to create organizational credentials for the organizations pending onboarding. Needs to be set to false before destroying module."
-  type        = bool
-  default     = true
-}
-
-variable "upwind_region" {
-  type        = string
-  description = "Which Upwind region to communicate with. 'us' or 'eu'"
-  default     = "us"
-
-  validation {
-    condition     = var.upwind_region == "us" || var.upwind_region == "eu"
-    error_message = "upwind_region must be either 'us' or 'eu'."
-  }
 }
 
 # endregion upwind

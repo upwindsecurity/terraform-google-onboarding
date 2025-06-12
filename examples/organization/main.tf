@@ -1,9 +1,3 @@
-# Google Cloud provider configuration
-provider "google" {
-  project = "your-gcp-project-id" # Replace with your actual GCP project ID
-  region  = "us-central1"         # Replace with your preferred region
-}
-
 # Organization-only example: Onboard entire organization to Upwind
 module "upwind_organization_onboarding" {
   source = "../../modules/organization"
@@ -18,12 +12,11 @@ module "upwind_organization_onboarding" {
   upwind_orchestrator_project = "my-upwind-orchestrator"
 
   # Optional configuration
-  upwind_region                       = "us"
   enable_cloudscanners                = true
   scanner_client_id                   = "scanner_client_example12345"
   scanner_client_secret               = "your-scanner-client-secret-here"
-  create_organizational_credentials   = true
   google_service_account_display_name = "Upwind Security Service Account - Org"
+  resource_suffix                     = "abcdef1234"
 }
 
 # Example of post-onboarding setup

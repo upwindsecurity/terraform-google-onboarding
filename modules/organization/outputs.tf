@@ -22,13 +22,3 @@ output "upwind_management_service_account_project" {
   description = "The project ID of the Upwind Management Service Account."
   value       = google_service_account.upwind_management_sa.project
 }
-
-output "org_creds" {
-  description = "The organizational credentials for the organizations pending onboarding."
-  value       = local.raw_credentials
-}
-
-output "pending_orgs" {
-  description = "The organizational credentials for the organizations pending onboarding."
-  value       = local.pending_onboarding_orgs
-}
