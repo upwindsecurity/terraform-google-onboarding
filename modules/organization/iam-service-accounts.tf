@@ -4,6 +4,7 @@
 # temporary name prefix of test- to be updated to upwind-
 
 # The service account to configure all automatic deployment of Cloudscanners
+# This is the service account that we will authenticate to using Workload Identity Federation
 resource "google_service_account" "upwind_management_sa" {
   project      = local.project
   account_id   = format("upwind-mgmt-%s", local.resource_suffix_hyphen)
@@ -18,14 +19,10 @@ resource "google_service_account" "upwind_management_sa" {
   }
 }
 
-# The service account key for the management service account
-resource "google_service_account_key" "upwind_management_sa_key" {
-  service_account_id = google_service_account.upwind_management_sa.name
-}
-
 ### CloudScanner Service Accounts
 
 # The main service account for the CloudScanner to use across all projects
+# This service account will be attached to the CloudScanner Worker Instances
 resource "google_service_account" "cloudscanner_sa" {
   count        = var.enable_cloudscanners ? 1 : 0
   project      = local.project
@@ -42,6 +39,7 @@ resource "google_service_account" "cloudscanner_sa" {
 }
 
 # The service account which will be used to run the scaler function
+# This service account will be used to scale the CloudScanner Instance Groups via Cloud Run
 resource "google_service_account" "cloudscanner_scaler_sa" {
   count        = var.enable_cloudscanners ? 1 : 0
   project      = local.project

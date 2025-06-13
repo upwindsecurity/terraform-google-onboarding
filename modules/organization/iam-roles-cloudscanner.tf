@@ -104,6 +104,7 @@ resource "google_project_iam_custom_role" "cloudscanner_basic_role" {
   ]
 }
 
+# Used by the CloudScanner Scaler to scale the CloudScanner Instance Groups
 resource "google_project_iam_custom_role" "cloudscanner_scaler_role" {
   count       = var.enable_cloudscanners ? 1 : 0
   role_id     = "CloudScannerScalerRole_${local.resource_suffix_underscore}"
