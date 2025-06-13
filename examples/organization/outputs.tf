@@ -4,9 +4,9 @@ output "organization_service_account_email" {
   value       = module.upwind_organization_onboarding.upwind_management_service_account_email
 }
 
-output "organization_service_account_name" {
+output "organization_service_account_display_name" {
   description = "The name of the organization service account"
-  value       = module.upwind_organization_onboarding.upwind_management_service_account_name
+  value       = module.upwind_organization_onboarding.upwind_management_service_account_display_name
 }
 
 output "organization_service_account_unique_id" {
@@ -14,14 +14,14 @@ output "organization_service_account_unique_id" {
   value       = module.upwind_organization_onboarding.upwind_management_service_account_unique_id
 }
 
-output "organizational_credentials" {
-  description = "The organizational credentials for pending onboarding"
-  value       = module.upwind_organization_onboarding.org_creds
+output "organization_service_account_project" {
+  description = "The project of the organization service account"
+  value       = module.upwind_organization_onboarding.upwind_management_service_account_project
 }
 
-output "pending_organizations" {
-  description = "The organizations pending onboarding"
-  value       = module.upwind_organization_onboarding.pending_orgs
+output "organization_service_account_name" {
+  description = "The name of the organization service account"
+  value       = module.upwind_organization_onboarding.upwind_management_service_account_name
 }
 
 # Summary outputs
