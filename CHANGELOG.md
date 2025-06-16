@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.1.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.0.0...v2.1.0) (2025-06-16)
+
+### Features
+
+* update release workflow and CI/CD pipeline ([#3](https://github.com/upwindsecurity/terraform-google-onboarding/issues/3)) ([870d989](https://github.com/upwindsecurity/terraform-google-onboarding/commit/870d98904360cb9b6111b55a8d037081a288f4c8))
+
+### Bug Fixes
+
+* clean up whitespace and formatting in workflow and documentation files ([#4](https://github.com/upwindsecurity/terraform-google-onboarding/issues/4)) ([fcaedcd](https://github.com/upwindsecurity/terraform-google-onboarding/commit/fcaedcddda35d8a8f0a5bbf7f66ebb0cbfef02e4))
+
 ## [2.0.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v1.0.0...v2.0.0) (2025-06-16)
 
 ### ⚠ BREAKING CHANGES
