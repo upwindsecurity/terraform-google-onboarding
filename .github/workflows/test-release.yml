@@ -12,26 +12,26 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    
+
     - name: Test Module Packaging
       run: |
         TEST_VERSION="1.0.0-test.$(date +%Y%m%d%H%M%S)"
         echo "Testing with version: $TEST_VERSION"
-        
+
         # Test packaging
         mkdir -p test-artifacts
-        
+
         tar --exclude-from .gitignore \
           -czf test-artifacts/terraform-google-onboarding-organization-${TEST_VERSION}.tar.gz \
           -C modules/organization .
-        
+
         tar --exclude-from .gitignore \
           -czf test-artifacts/terraform-google-onboarding-project-${TEST_VERSION}.tar.gz \
           -C modules/project .
-        
+
         echo "Created packages:"
         ls -la test-artifacts/
-    
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
