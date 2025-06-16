@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v1.0.0...v2.0.0) (2025-06-16)
+
+### ⚠ BREAKING CHANGES
+
+* **AG-2890:** this upgrades the Upwind GCP deployments
+    to use Workload Identity Federation instead of directly
+    using Service Accounts by creating a private key.
+
+    An identity pool is created and trust is configured with the
+    Upwind AWS account. It will be necessary for a customer to
+    provide a credential configuration for WIF after creation
+    using the gcloud command specified in the documentation, and
+    uploading this to Upwind.
+
+### Features
+
+* **AG-2890:** GCP Workload Identity Federation ([#1](https://github.com/upwindsecurity/terraform-google-onboarding/issues/1)) ([629dee6](https://github.com/upwindsecurity/terraform-google-onboarding/commit/629dee6529ebd9945e6f034202a0a938b1a4da4f))
+
 ## [2.0.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.0.0...v2.0.1) (2025-06-16)
 
 ### Bug Fixes
