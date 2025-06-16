@@ -4,6 +4,7 @@ This Terraform module handles the onboarding of individual Google Cloud projects
 users to seamlessly connect their projects for monitoring and security analysis.
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
 | Name | Version |
