@@ -27,7 +27,51 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Release
+    - name: Get Next Version
+      id: version
+      uses: cycjimmy/semantic-release-action@v4
+      with:
+        dry_run: true
+        semantic_version: 24.2.5
+        extra_plugins: |
+          @semantic-release/changelog@6.0.3
+          @semantic-release/git@10.0.1
+          conventional-changelog-conventionalcommits@9.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Terraform Modules
+      if: steps.version.outputs.new_release_published == 'true'
+      run: |
+        # Create release directory
+        mkdir -p release-artifacts
+
+        # Package organization module
+        echo "Creating organization module package..."
+        tar --exclude-from $GITHUB_WORKSPACE/.gitignore \
+          -czf $GITHUB_WORKSPACE/release-artifacts/terraform-google-onboarding-organization-${{ steps.version.outputs.new_release_version }}.tar.gz \
+          -C $GITHUB_WORKSPACE/modules/organization .
+
+        # Package project module
+        echo "Creating project module package..."
+        tar --exclude-from $GITHUB_WORKSPACE/.gitignore \
+          -czf $GITHUB_WORKSPACE/release-artifacts/terraform-google-onboarding-project-${{ steps.version.outputs.new_release_version }}.tar.gz \
+          -C $GITHUB_WORKSPACE/modules/project .
+
+        # Create "latest" versions
+        echo "Creating latest versions..."
+        cp $GITHUB_WORKSPACE/release-artifacts/terraform-google-onboarding-organization-${{ steps.version.outputs.new_release_version }}.tar.gz \
+           $GITHUB_WORKSPACE/release-artifacts/terraform-google-onboarding-organization-latest.tar.gz
+
+        cp $GITHUB_WORKSPACE/release-artifacts/terraform-google-onboarding-project-${{ steps.version.outputs.new_release_version }}.tar.gz \
+           $GITHUB_WORKSPACE/release-artifacts/terraform-google-onboarding-project-latest.tar.gz
+
+        # List created artifacts
+        echo "Created artifacts:"
+        ls -la $GITHUB_WORKSPACE/release-artifacts/
+
+    - name: Create Release
+      if: steps.version.outputs.new_release_published == 'true'
       uses: cycjimmy/semantic-release-action@v4
       with:
         semantic_version: 24.2.5
@@ -35,5 +79,29 @@ jobs:
           @semantic-release/changelog@6.0.3
           @semantic-release/git@10.0.1
           conventional-changelog-conventionalcommits@9.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Release Assets
+      if: steps.version.outputs.new_release_published == 'true'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.version.outputs.new_release_version }}
+        files: |
+          release-artifacts/terraform-google-onboarding-organization-${{ steps.version.outputs.new_release_version }}.tar.gz
+          release-artifacts/terraform-google-onboarding-project-${{ steps.version.outputs.new_release_version }}.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Latest Release
+      if: steps.version.outputs.new_release_published == 'true'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: latest
+        name: "Latest Release"
+        body: "This is always the latest stable release. Current version: v${{ steps.version.outputs.new_release_version }}"
+        files: |
+          release-artifacts/terraform-google-onboarding-organization-latest.tar.gz
+          release-artifacts/terraform-google-onboarding-project-latest.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
