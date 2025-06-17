@@ -9,6 +9,7 @@ locals {
 # This allows us to create a new pool in an apply-destroy-apply cycle
 resource "google_iam_workload_identity_pool" "main" {
   workload_identity_pool_id = "upwind-${local.org_id_truncated}-pool-${local.timestamp}"
+  project                   = var.workload_identity_pool_project == "" ? local.project : var.workload_identity_pool_project
   display_name              = "Upwind Identity Pool"
   description               = "Identity pool for external Upwind workloads"
   disabled                  = false
@@ -26,6 +27,7 @@ resource "google_iam_workload_identity_pool" "main" {
 resource "google_iam_workload_identity_pool_provider" "aws" {
   workload_identity_pool_id          = google_iam_workload_identity_pool.main.workload_identity_pool_id
   workload_identity_pool_provider_id = "upwind-${local.org_id_truncated}-aws-provider"
+  project                            = var.workload_identity_pool_project == "" ? local.project : var.workload_identity_pool_project
   display_name                       = "Upwind AWS Provider"
   description                        = "Identity pool provider for Upwind AWS workloads"
 
