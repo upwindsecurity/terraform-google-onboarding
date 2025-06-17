@@ -372,16 +372,9 @@ resource "google_project_iam_member" "cloudscanner_scaler_sa_run_invoker" {
   }
 }
 
-resource "google_project_iam_member" "upwind_management_sa_token_binding" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  project = local.project
-  role    = "roles/iam.serviceAccountTokenCreator"
-  member  = "serviceAccount:${google_service_account.upwind_management_sa.email}"
-}
-
-resource "google_project_iam_member" "cloudscanner_sa_token_binding" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  project = local.project
-  role    = "roles/iam.serviceAccountTokenCreator"
-  member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+resource "google_service_account_iam_member" "cloudscanner_impersonate_scaler" {
+  count              = var.enable_cloudscanners ? 1 : 0
+  service_account_id = google_service_account.cloudscanner_scaler_sa[0].id
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
 }
