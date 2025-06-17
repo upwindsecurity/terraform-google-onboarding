@@ -227,6 +227,51 @@ resource "google_organization_iam_custom_role" "upwind_management_sa_iam_write_r
   ]
 }
 
+
+# Custom role for snapshot management
+resource "google_organization_iam_custom_role" "snapshot_reader" {
+  count       = var.enable_cloudscanners ? 1 : 0
+  org_id      = data.google_organization.org.org_id
+  role_id     = "upwindSnapshotReader"
+  title       = "Upwind Snapshot Reader"
+  description = "Read-only access to all compute resources for discovery"
+
+  permissions = [
+    # Read-only permissions for discovery
+    "compute.disks.get",
+    "compute.disks.list",
+    "compute.snapshots.get",
+    "compute.snapshots.list",
+    "compute.instances.get",
+    "compute.instances.list",
+    "compute.diskTypes.get",
+    "compute.diskTypes.list",
+    "compute.projects.get",
+    "resourcemanager.projects.get",
+    "compute.zoneOperations.get",
+    "compute.globalOperations.get",
+    "compute.regionOperations.get",
+    "iam.serviceAccounts.getAccessToken",
+  ]
+}
+
+resource "google_organization_iam_custom_role" "snapshot_writer" {
+  count       = var.enable_cloudscanners ? 1 : 0
+  org_id      = data.google_organization.org.org_id
+  role_id     = "upwindSnapshotWriter"
+  title       = "Upwind Snapshot Writer"
+  description = "Create/delete operations restricted to Upwind-managed resources"
+
+  permissions = [
+    # Write operations - restricted by IAM condition
+    "compute.snapshots.create",
+    "compute.snapshots.delete",
+    "compute.disks.create",
+    "compute.disks.createSnapshot",
+    "compute.disks.delete",
+  ]
+}
+
 # Assign the read IAM role to the management service account (unconditional)
 resource "google_organization_iam_member" "upwind_management_sa_iam_read_role_member" {
   count  = var.enable_cloudscanners ? 1 : 0
@@ -272,12 +317,29 @@ resource "google_organization_iam_member" "upwind_cloudscanner_sa_compute_viewer
   member = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
 }
 
-# Required to get disks and create/delete snapshots of target instances across projects
-resource "google_organization_iam_member" "upwind_cloudscanner_sa_storage_admin_role_member" {
+# Required to get disks and snapshots of target instances across projects
+resource "google_organization_iam_member" "upwind_cloudscanner_reader_role" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
-  role   = "roles/compute.storageAdmin"
+  role   = google_organization_iam_custom_role.snapshot_reader[0].name
   member = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+}
+
+# Required to create/delete snapshots and disks after scanning
+resource "google_organization_iam_member" "upwind_cloudscanner_writer_role" {
+  count  = var.enable_cloudscanners ? 1 : 0
+  org_id = data.google_organization.org.org_id
+  role   = google_organization_iam_custom_role.snapshot_writer[0].name
+  member = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+
+  condition {
+    title       = "Restrict write operations to Upwind-managed resources"
+    description = "Only allow write operations on snapshots starting with 'snap-' and disks starting with 'vol-snap-'"
+    expression  = <<-EOT
+      (resource.type != "compute.snapshots" || resource.name.startsWith("snap-")) &&
+      (resource.type != "compute.disks" || resource.name.startsWith("vol-snap-"))
+    EOT
+  }
 }
 
 # Required for Cloud Run scanning
