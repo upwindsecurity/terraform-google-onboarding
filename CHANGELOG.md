@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.3.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.2.0...v2.3.0) (2025-06-17)
+
+### Features
+
+* **AG2922:** remove token creator bindings, allow cloudscanner to impersonate scaler ([#8](https://github.com/upwindsecurity/terraform-google-onboarding/issues/8)) ([9ac7555](https://github.com/upwindsecurity/terraform-google-onboarding/commit/9ac7555b90d3f19c7c9f5e85ce6422396db9d1ef))
+
 ## [2.1.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.0.0...v2.1.0) (2025-06-16)
 
 ### Features
