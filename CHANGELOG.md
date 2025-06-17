@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.2.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.1.0...v2.2.0) (2025-06-17)
+
+### Features
+
+* **AG-2921:** add variable to control WIF project ([#6](https://github.com/upwindsecurity/terraform-google-onboarding/issues/6)) ([d1e65c0](https://github.com/upwindsecurity/terraform-google-onboarding/commit/d1e65c0d3430acde20c42f89a7468a59a70a989e))
+
 ## [2.1.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.0.0...v2.1.0) (2025-06-16)
 
 ### Features
