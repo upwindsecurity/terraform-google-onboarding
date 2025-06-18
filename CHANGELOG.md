@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.4.2](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.1...v2.4.2) (2025-06-18)
+
+### Bug Fixes
+
+* **AG-2937:** fix role name for snapshot reader/writer ([#14](https://github.com/upwindsecurity/terraform-google-onboarding/issues/14)) ([650d41e](https://github.com/upwindsecurity/terraform-google-onboarding/commit/650d41e0017ea8edb40490a231cdf16831185c15))
+
 ## [2.4.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.0...v2.4.1) (2025-06-18)
 
 ### Bug Fixes
