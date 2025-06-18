@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [2.4.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.0...v2.4.1) (2025-06-18)
+
+### Bug Fixes
+
+* **AG-2928:** move disks.createSnapshot permission, fix empty workload ([#12](https://github.com/upwindsecurity/terraform-google-onboarding/issues/12)) ([c03e6ef](https://github.com/upwindsecurity/terraform-google-onboarding/commit/c03e6efa15edc998fb7a489cc0c90232d78084e1))
+
 ## [2.4.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.3.0...v2.4.0) (2025-06-17)
 
 ### Features
