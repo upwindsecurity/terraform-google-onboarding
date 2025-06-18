@@ -232,7 +232,7 @@ resource "google_organization_iam_custom_role" "upwind_management_sa_iam_write_r
 resource "google_organization_iam_custom_role" "snapshot_reader" {
   count       = var.enable_cloudscanners ? 1 : 0
   org_id      = data.google_organization.org.org_id
-  role_id     = "upwindSnapshotReader"
+  role_id     = "CloudScannerSnapshotReader_${local.resource_suffix_underscore}"
   title       = "Upwind Snapshot Reader"
   description = "Read-only access to all compute resources for discovery"
 
@@ -259,7 +259,7 @@ resource "google_organization_iam_custom_role" "snapshot_reader" {
 resource "google_organization_iam_custom_role" "snapshot_writer" {
   count       = var.enable_cloudscanners ? 1 : 0
   org_id      = data.google_organization.org.org_id
-  role_id     = "upwindSnapshotWriter"
+  role_id     = "CloudScannerSnapshotWriter_${local.resource_suffix_underscore}"
   title       = "Upwind Snapshot Writer"
   description = "Create/delete operations restricted to Upwind-managed resources"
 
