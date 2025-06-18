@@ -240,6 +240,7 @@ resource "google_organization_iam_custom_role" "snapshot_reader" {
     # Read-only permissions for discovery
     "compute.disks.get",
     "compute.disks.list",
+    "compute.disks.createSnapshot", # This cannot be restricted, we cannot know the name of the target disk
     "compute.snapshots.get",
     "compute.snapshots.list",
     "compute.instances.get",
@@ -267,7 +268,6 @@ resource "google_organization_iam_custom_role" "snapshot_writer" {
     "compute.snapshots.create",
     "compute.snapshots.delete",
     "compute.disks.create",
-    "compute.disks.createSnapshot",
     "compute.disks.delete",
   ]
 }
