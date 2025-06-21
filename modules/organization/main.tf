@@ -22,3 +22,7 @@ provider "google" {
 data "google_organization" "org" {
   organization = var.gcp_organization_id
 }
+
+data "google_project" "current" {
+  project_id = local.project
+}

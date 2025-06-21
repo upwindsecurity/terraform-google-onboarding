@@ -1,7 +1,5 @@
 locals {
-  # Select dev or prod AWS account based on auth endpoint
-  is_dev             = strcontains(var.upwind_auth_endpoint, "upwind.dev") || strcontains(var.upwind_integration_endpoint, "upwind.dev")
-  upwind_aws_account = local.is_dev ? "437279811180" : "627244208106"
+  upwind_aws_account = var.is_dev ? "437279811180" : "627244208106"
   timestamp          = formatdate("YYYYMMDD-hhmm", timestamp())
 }
 

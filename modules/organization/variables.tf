@@ -104,16 +104,10 @@ variable "scanner_client_secret" {
   default     = ""
 }
 
-variable "upwind_auth_endpoint" {
-  description = "The Authentication API endpoint."
-  type        = string
-  default     = "https://oauth.upwind.io"
-}
-
-variable "upwind_integration_endpoint" {
-  description = "The Integration API endpoint."
-  type        = string
-  default     = "https://integration.upwind.io"
+variable "is_dev" {
+  description = "Flag to indicate if the environment is a development environment."
+  type        = bool
+  default     = false
 }
 
 # endregion upwind
@@ -131,7 +125,7 @@ variable "gcp_organization_id" {
 }
 
 variable "upwind_orchestrator_project" {
-  description = "The main project where the resources are created."
+  description = "The orchestrator project where Upwind resources are created."
   type        = string
 
   validation {
@@ -141,7 +135,7 @@ variable "upwind_orchestrator_project" {
 }
 
 variable "workload_identity_pool_project" {
-  description = "The project where the workload identity pool is created."
+  description = "The project where the workload identity pool is created. Defaults to the orchestrator project if not specified."
   type        = string
   default     = ""
 
