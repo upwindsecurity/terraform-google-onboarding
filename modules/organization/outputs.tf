@@ -22,3 +22,8 @@ output "upwind_management_service_account_project" {
   description = "The project ID of the Upwind Management Service Account."
   value       = google_service_account.upwind_management_sa.project
 }
+
+output "upwind_workload_identity_pool_id" {
+  description = "The ID of the Upwind Workload Identity Pool."
+  value       = google_iam_workload_identity_pool.main.workload_identity_pool_id
+}
