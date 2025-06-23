@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.4.3](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.2...v2.4.3) (2025-06-23)
+
+### Bug Fixes
+
+* **AG-2954:** permissions fixes for scaling and scanning, reorganisation of roles ([#16](https://github.com/upwindsecurity/terraform-google-onboarding/issues/16)) ([0e8bdac](https://github.com/upwindsecurity/terraform-google-onboarding/commit/0e8bdac89be5e9792e8d156a72ea234859936fb5))
+
 ## [2.4.2](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.1...v2.4.2) (2025-06-18)
 
 ### Bug Fixes
