@@ -239,6 +239,9 @@ resource "google_organization_iam_custom_role" "snapshot_reader" {
     "compute.globalOperations.get",
     "compute.regionOperations.get",
     "iam.serviceAccounts.getAccessToken",
+    "storage.buckets.getIamPolicy",
+    "storage.buckets.get",
+    "storage.buckets.list",
   ]
 }
 
