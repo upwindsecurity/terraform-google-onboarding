@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.5.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.3...v2.5.0) (2025-06-26)
+
+### Features
+
+* **AG-2991:** add storage bucket read permissions to management account ([#19](https://github.com/upwindsecurity/terraform-google-onboarding/issues/19)) ([f60be49](https://github.com/upwindsecurity/terraform-google-onboarding/commit/f60be49ef4f6213af50e30675f1e67673e831205))
+
 ## [2.4.3](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.2...v2.4.3) (2025-06-23)
 
 ### Bug Fixes
