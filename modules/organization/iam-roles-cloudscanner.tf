@@ -82,19 +82,13 @@ resource "google_project_iam_custom_role" "cloudscanner_basic_role" {
   description = "Minimum permissions required for Cloudscanner operations"
 
   permissions = [
-    "compute.disks.create",
-    "compute.disks.delete",
     "compute.disks.createSnapshot",
     "compute.disks.get",
     "compute.disks.list",
-    "compute.disks.setLabels",
-    "compute.disks.use",
     "compute.instances.attachDisk",
     "compute.instances.detachDisk",
     "compute.instances.get",
     "compute.instances.list",
-    "compute.snapshots.create",
-    "compute.snapshots.delete",
     "compute.snapshots.get",
     "compute.snapshots.setLabels",
     "compute.snapshots.useReadOnly",
@@ -387,7 +381,7 @@ resource "google_organization_iam_binding" "cloudscanner_scaler_snapshot_deleter
   condition {
     # Limit storage deletion permissions to snapshots we generate only
     title      = "Upwind Cloud Scanner Snapshot Writer"
-    expression = "resource.name.extract('projects/.*/global/snapshots/(snap-.*)') != ''"
+    expression = "resource.name.extract('snapshots/{snapshot}').startsWith('snap-')"
   }
 }
 
@@ -412,7 +406,7 @@ resource "google_project_iam_binding" "cloudscanner_disk_writer_role_binding" {
   condition {
     # Limit disk creation/deletion permissions to Upwind named disks only in orchestrator project
     title      = "Upwind Cloud Scanner Disk Writer"
-    expression = "resource.name.extract('projects/${local.project}/zones/.*/disks/(vol-snap-.*)') != ''"
+    expression = "resource.name.extract('disks/{disk}').startsWith('vol-snap-')"
   }
 }
 
@@ -518,7 +512,7 @@ resource "google_project_iam_member" "cloudscanner_instance_template_mgmt_member
   condition {
     # Limit the use of the roles to cloudscanner only instance templates
     title      = "Upwind Cloud Scanner Instance Template Management"
-    expression = "resource.name.extract('projects/${local.project}/regions/.*/instanceTemplates/(upwind-tpl-.*)') != ''"
+    expression = "resource.name.extract('instanceTemplates/{template}').startsWith('upwind-tpl-')"
   }
 }
 
