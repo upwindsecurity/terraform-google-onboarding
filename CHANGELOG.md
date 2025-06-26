@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.5.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.5.0...v2.5.1) (2025-06-26)
+
+### Bug Fixes
+
+* **AG-2990:** fix role conditions to use extract with template instead of regex ([#21](https://github.com/upwindsecurity/terraform-google-onboarding/issues/21)) ([c588dc9](https://github.com/upwindsecurity/terraform-google-onboarding/commit/c588dc9b4e2b806d53533a588e7534c8ee0d1288))
+
 ## [2.5.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.4.3...v2.5.0) (2025-06-26)
 
 ### Features
