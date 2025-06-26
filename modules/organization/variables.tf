@@ -9,6 +9,7 @@ variable "upwind_apis" {
     "iam.googleapis.com",
     "container.googleapis.com",
     "sts.googleapis.com",
+    "storageinsights.googleapis.com",
   ]
 }
 

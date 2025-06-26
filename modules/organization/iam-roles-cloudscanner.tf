@@ -530,6 +530,9 @@ resource "google_project_iam_member" "cloudrun_service_agent" {
   project = local.project
   role    = "roles/run.serviceAgent"
   member  = "serviceAccount:service-${data.google_project.current.number}@serverless-robot-prod.iam.gserviceaccount.com"
+
+  # Wait for the Cloud Run API to be enabled before applying this role
+  depends_on = [ google_project_service.enable_apis ]
 }
 
 # Required when scaling up the Instance Group as the Compute Engine service agent

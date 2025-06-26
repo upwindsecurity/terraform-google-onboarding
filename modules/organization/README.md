@@ -9,14 +9,15 @@ The Terraform module will enable these APIs on the orchestrator project:
 
 ### Required for Upwind operations
 
-| API Name                                                                                | Endpoint                              |
-| --------------------------------------------------------------------------------------- | ------------------------------------- |
-| [Cloud Asset API](https://cloud.google.com/asset-inventory/docs/reference/rest)         | `cloudasset.googleapis.com`           |
-| [Cloud Resource Manager API](https://cloud.google.com/resource-manager/reference/rest)  | `cloudresourcemanager.googleapis.com` |
-| [Compute Engine API](https://cloud.google.com/compute/docs/reference/rest/v1)           | `compute.googleapis.com`              |
-| [Identity and Access Management API](https://cloud.google.com/iam/docs/reference/rest)  | `iam.googleapis.com`                  |
-| [Kubernetes Engine API](https://cloud.google.com/kubernetes-engine/docs/reference/rest) | `container.googleapis.com`            |
-| [Security Token Service API](https://cloud.google.com/iam/docs/reference/sts/rest)      | `sts.googleapis.com`                  |
+| API Name                                                                                    | Endpoint                              |
+| ------------------------------------------------------------------------------------------- | ------------------------------------- |
+| [Cloud Asset API](https://cloud.google.com/asset-inventory/docs/reference/rest)             | `cloudasset.googleapis.com`           |
+| [Cloud Resource Manager API](https://cloud.google.com/resource-manager/reference/rest)      | `cloudresourcemanager.googleapis.com` |
+| [Compute Engine API](https://cloud.google.com/compute/docs/reference/rest/v1)               | `compute.googleapis.com`              |
+| [Identity and Access Management API](https://cloud.google.com/iam/docs/reference/rest)      | `iam.googleapis.com`                  |
+| [Kubernetes Engine API](https://cloud.google.com/kubernetes-engine/docs/reference/rest)     | `container.googleapis.com`            |
+| [Security Token Service API](https://cloud.google.com/iam/docs/reference/sts/rest)          | `sts.googleapis.com`                  |
+| [Storage Insights API](https://cloud.google.com/storage/docs/insights/storage-insights-api) | `storageinsights.googleapis.com`      |
 
 ### Required for Upwind Posture
 
@@ -85,6 +86,7 @@ No modules.
 | [google_organization_iam_custom_role.snapshot_reader](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_custom_role) | resource |
 | [google_organization_iam_custom_role.upwind_management_sa_iam_read_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_custom_role) | resource |
 | [google_organization_iam_custom_role.upwind_management_sa_iam_write_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_custom_role) | resource |
+| [google_organization_iam_custom_role.upwind_management_sa_storage_reader_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_custom_role) | resource |
 | [google_organization_iam_binding.cloudscanner_cloud_run_role_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_binding) | resource |
 | [google_organization_iam_binding.cloudscanner_disk_writer_role_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_binding) | resource |
 | [google_organization_iam_binding.cloudscanner_scaler_snapshot_deleter_role_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_binding) | resource |
@@ -95,6 +97,7 @@ No modules.
 | [google_organization_iam_member.upwind_management_sa_iam_read_role_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_member) | resource |
 | [google_organization_iam_member.upwind_management_sa_iam_write_role_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_member) | resource |
 | [google_organization_iam_member.upwind_management_sa_org_viewer_role_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_member) | resource |
+| [google_organization_iam_member.upwind_management_sa_storage_reader_role_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_member) | resource |
 | [google_project_iam_custom_role.cloudscanner_basic_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
 | [google_project_iam_custom_role.cloudscanner_instance_template_mgmt_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
 | [google_project_iam_custom_role.cloudscanner_instance_template_test_creation_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_custom_role) | resource |
