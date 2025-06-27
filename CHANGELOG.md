@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.5.2](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.5.1...v2.5.2) (2025-06-27)
+
 ## [2.5.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.5.0...v2.5.1) (2025-06-26)
 
 ### Bug Fixes
