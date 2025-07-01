@@ -15,6 +15,7 @@ resource "google_project_iam_custom_role" "upwind_management_sa_cloudscanner_dep
     "compute.instanceGroupManagers.create",
     "compute.instanceGroupManagers.get",
     "compute.instanceGroupManagers.delete",
+    "compute.instanceGroupManagers.update",
     "compute.instanceGroups.delete",
     "compute.instances.create",
     "compute.instances.get",
