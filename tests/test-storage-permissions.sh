@@ -2,16 +2,17 @@
 
 # GCP Permissions Test Script
 # Usage: ./test_permissions.sh [ORG_ID] [PROJECT_ID] [BUCKET_NAME] [OBJECT_NAME]
+# Or set environment variables: ORG_ID, PROJECT_ID, BUCKET_NAME, OBJECT_NAME
 
 # Requires local gcloud auth to the service account under test
 
 set -e
 
-# Configuration
-ORG_ID=${1:-"532401344755"}
-PROJECT_ID=${2:-"upwindsecurity-xa"}
-BUCKET_NAME=${3:-"adamh-test-hns"}
-OBJECT_NAME=${4:-"test.txt"}
+# Configuration - Accept from command line arguments or environment variables
+ORG_ID=${1:-${ORG_ID:-""}}
+PROJECT_ID=${2:-${PROJECT_ID:-""}}
+BUCKET_NAME=${3:-${BUCKET_NAME:-""}}
+OBJECT_NAME=${4:-${OBJECT_NAME:-""}}
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -27,9 +28,9 @@ CROSS="✗"
 test_permission() {
     local permission_name="$1"
     local command="$2"
-    
+
     printf "%-50s " "$permission_name"
-    
+
     if eval "$command" >/dev/null 2>&1; then
         echo -e "${GREEN}${TICK}${NC}"
         return 0
@@ -44,6 +45,7 @@ check_params() {
     if [[ -z "$ORG_ID" ]]; then
         echo -e "${RED}Error: Organization ID required${NC}"
         echo "Usage: $0 [ORG_ID] [PROJECT_ID] [BUCKET_NAME] [OBJECT_NAME]"
+        echo "Or set environment variables: ORG_ID, PROJECT_ID, BUCKET_NAME, OBJECT_NAME"
         exit 1
     fi
 }
