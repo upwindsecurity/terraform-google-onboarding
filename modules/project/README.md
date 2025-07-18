@@ -4,7 +4,6 @@ This Terraform module handles the onboarding of individual Google Cloud projects
 users to seamlessly connect their projects for monitoring and security analysis.
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
 | Name | Version |
@@ -18,7 +17,7 @@ users to seamlessly connect their projects for monitoring and security analysis.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 6.38.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 6.43.0 |
 | <a name="provider_http"></a> [http](#provider\_http) | 3.5.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
 
@@ -49,7 +48,7 @@ No modules.
 | <a name="input_upwind_client_secret"></a> [upwind\_client\_secret](#input\_upwind\_client\_secret) | The client secret for authentication with the Upwind Authorization Service. | `string` | n/a | yes |
 | <a name="input_upwind_integration_endpoint"></a> [upwind\_integration\_endpoint](#input\_upwind\_integration\_endpoint) | The Integration API endpoint. | `string` | `"https://integration.upwind.io"` | no |
 | <a name="input_upwind_organization_id"></a> [upwind\_organization\_id](#input\_upwind\_organization\_id) | The identifier of the Upwind organization to integrate with. | `string` | n/a | yes |
-| <a name="input_upwind_region"></a> [upwind\_region](#input\_upwind\_region) | Which Upwind region to communicate with. 'us' or 'eu' | `string` | `"us"` | no |
+| <a name="input_upwind_region"></a> [upwind\_region](#input\_upwind\_region) | Which Upwind region to communicate with. 'us', 'eu' or 'me' | `string` | `"us"` | no |
 | <a name="input_upwind_skip_http"></a> [upwind\_skip\_http](#input\_upwind\_skip\_http) | Controls whether HTTP requests should be skipped. Affects all HTTP requests. | `bool` | `false` | no |
 
 ## Outputs
