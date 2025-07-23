@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.7.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.0...v2.7.1) (2025-07-23)
+
+### Bug Fixes
+
+* **AG-3232:** add output for workload identity pool provider full path ([#36](https://github.com/upwindsecurity/terraform-google-onboarding/issues/36)) ([98a7da5](https://github.com/upwindsecurity/terraform-google-onboarding/commit/98a7da512a6613c756c0269c85a1ee27beb9ba78))
+
 ## [2.7.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.6.0...v2.7.0) (2025-07-23)
 
 ### Features
