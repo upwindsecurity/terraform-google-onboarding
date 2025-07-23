@@ -196,19 +196,6 @@ resource "google_organization_iam_custom_role" "upwind_management_sa_iam_read_ro
   ]
 }
 
-# Write IAM role for setting IAM policies
-resource "google_organization_iam_custom_role" "upwind_management_sa_iam_write_role" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  org_id      = data.google_organization.org.org_id
-  role_id     = "CloudScannerIamWriteRole_${local.resource_suffix_underscore}"
-  title       = "upwind-mgmt-${local.resource_suffix_hyphen}-iam-write"
-  description = "Write permissions for IAM management with conditions"
-  permissions = [
-    "resourcemanager.projects.setIamPolicy"
-  ]
-}
-
-
 # Custom role for snapshot management
 resource "google_organization_iam_custom_role" "snapshot_reader" {
   count       = var.enable_cloudscanners ? 1 : 0
@@ -298,20 +285,6 @@ resource "google_organization_iam_member" "upwind_management_sa_iam_read_role_me
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.upwind_management_sa_iam_read_role[0].id
   member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
-}
-
-# Assign the write IAM role to the management service account (conditional)
-resource "google_organization_iam_member" "upwind_management_sa_iam_write_role_member" {
-  count  = var.enable_cloudscanners ? 1 : 0
-  org_id = data.google_organization.org.org_id
-  role   = google_organization_iam_custom_role.upwind_management_sa_iam_write_role[0].id
-  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
-
-  condition {
-    title       = "CloudScanner Role Bindings Only"
-    description = "Only allow binding of CloudScanner custom roles"
-    expression  = "resource.name.startsWith('CloudScanner')"
-  }
 }
 
 # Allow scaler to impersonate scanner SA AND allow Compute Engine service to use scanner SA for VM operations
