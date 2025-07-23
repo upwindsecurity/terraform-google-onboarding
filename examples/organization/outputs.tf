@@ -24,6 +24,11 @@ output "organization_service_account_name" {
   value       = module.upwind_organization_onboarding.upwind_management_service_account_name
 }
 
+output "workload_identity_provider_name" {
+  description = "Full path name of the workload identity pool provider"
+  value       = module.upwind_organization_onboarding.workload_identity_provider_name
+}
+
 # Summary outputs
 
 output "organization_onboarded" {
