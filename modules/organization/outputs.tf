@@ -27,3 +27,8 @@ output "upwind_workload_identity_pool_id" {
   description = "The ID of the Upwind Workload Identity Pool."
   value       = google_iam_workload_identity_pool.main.workload_identity_pool_id
 }
+
+output "workload_identity_provider_name" {
+  description = "Full path name of the workload identity pool provider"
+  value       = "projects/${data.google_project.current.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.main.workload_identity_pool_id}/providers/${google_iam_workload_identity_pool_provider.aws.workload_identity_pool_provider_id}"
+}
