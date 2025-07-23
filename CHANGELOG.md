@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.7.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.6.0...v2.7.0) (2025-07-23)
+
+### Features
+
+* **AG-3214:** remove unnecessary IAM write role as all IAM creation is now handled within onboarding ([#35](https://github.com/upwindsecurity/terraform-google-onboarding/issues/35)) ([ebb2202](https://github.com/upwindsecurity/terraform-google-onboarding/commit/ebb2202155a6005897675d31d533bd4077c6fb5a))
+
 ## [2.6.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.5.3...v2.6.0) (2025-07-18)
 
 ### Features
