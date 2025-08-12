@@ -59,7 +59,7 @@ resource "google_organization_iam_member" "cloudscanner_sa_storage_reader_role_m
 }
 
 # Grant Cloud Asset Inventory permissions for customer-asset-collector across all projects
-resource "google_organization_iam_member" "service_account_asset_viewer_role_member" {
+resource "google_organization_iam_member" "upwind_management_sa_asset_viewer_role_member" {
   org_id = data.google_organization.org.org_id
   role   = "roles/cloudasset.viewer"
   member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
