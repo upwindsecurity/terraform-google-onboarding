@@ -11,6 +11,12 @@ resource "google_organization_iam_member" "upwind_management_sa_org_viewer_role_
   member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
 }
 
+resource "google_organization_iam_member" "upwind_management_sa_folder_viewer_role_member" {
+  org_id = data.google_organization.org.org_id
+  role   = "roles/resourcemanager.folderViewer"
+  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+}
+
 # Specifically grant permissions to read storage objects
 # This is a reduction from the storageAdmin role to grant read only access
 resource "google_organization_iam_custom_role" "storage_reader_role" {
