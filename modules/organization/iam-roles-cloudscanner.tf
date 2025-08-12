@@ -305,6 +305,14 @@ resource "google_project_iam_member" "cloudscanner_sa_basic_role_member" {
   member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
 }
 
+# Grant Cloud Asset Inventory permissions for customer-asset-collector
+resource "google_project_iam_member" "cloudscanner_sa_asset_viewer_role_member" {
+  count   = var.enable_cloudscanners ? 1 : 0
+  project = local.project
+  role    = "roles/cloudasset.viewer"
+  member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+}
+
 # Required to get instances across projects
 resource "google_organization_iam_member" "upwind_cloudscanner_sa_compute_viewer_role_member" {
   count  = var.enable_cloudscanners ? 1 : 0
