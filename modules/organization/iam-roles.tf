@@ -62,5 +62,5 @@ resource "google_organization_iam_member" "cloudscanner_sa_storage_reader_role_m
 resource "google_organization_iam_member" "service_account_asset_viewer_role_member" {
   org_id = data.google_organization.org.org_id
   role   = "roles/cloudasset.viewer"
-  member = "serviceAccount:${google_service_account.cloudscanner_sa.email}"
+  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
 }
