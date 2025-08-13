@@ -63,7 +63,7 @@ variable "google_service_account_display_name" {
 variable "google_service_account_roles" {
   description = "The roles that should be attached to the service account."
   type        = list(string)
-  default     = ["roles/viewer"]
+  default     = ["roles/viewer", "roles/cloudasset.viewer"]
 }
 
 # endregion google
