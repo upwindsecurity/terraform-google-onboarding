@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.7.3](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.2...v2.7.3) (2025-08-12)
+
+### Bug Fixes
+
+* **AG-3477:** add asset viewer role ([#41](https://github.com/upwindsecurity/terraform-google-onboarding/issues/41)) ([a5d5d31](https://github.com/upwindsecurity/terraform-google-onboarding/commit/a5d5d31e0a9c6a8aff9559d85bd5ebea1596e73e))
+
 ## [2.7.2](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.1...v2.7.2) (2025-08-12)
 
 ### Bug Fixes
