@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.7.4](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.3...v2.7.4) (2025-08-19)
+
+### Bug Fixes
+
+* **AG-3477:** missing cloud asset role for customer asset collector ([#43](https://github.com/upwindsecurity/terraform-google-onboarding/issues/43)) ([e157832](https://github.com/upwindsecurity/terraform-google-onboarding/commit/e1578328d6540c3a4bf6e9bf9e7afdfd23ea3086))
+
 ## [2.7.3](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.2...v2.7.3) (2025-08-12)
 
 ### Bug Fixes
