@@ -150,7 +150,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_enable_cloudscanners"></a> [enable\_cloudscanners](#input\_enable\_cloudscanners) | Enable the creation of cloud scanners. | `bool` | `false` | no |
-| <a name="input_enable_dspm_scanning"></a> [enable\_dspm\_scanning](#input\_enable\_dspm\_scanning) | Enable DSPM scanning | `bool` | `true` | no |
+| <a name="input_enable_dspm_scanning"></a> [enable\_dspm\_scanning](#input\_enable\_dspm\_scanning) | Enable DSPM scanning by cloud scanners | `bool` | `true` | no |
 | <a name="input_gcp_organization_id"></a> [gcp\_organization\_id](#input\_gcp\_organization\_id) | The GCP organization ID. | `string` | n/a | yes |
 | <a name="input_google_service_account_display_name"></a> [google\_service\_account\_display\_name](#input\_google\_service\_account\_display\_name) | The display name for the service account. | `string` | `"Upwind Security Service Account"` | no |
 | <a name="input_is_dev"></a> [is\_dev](#input\_is\_dev) | Flag to indicate if the environment is a development environment. | `bool` | `false` | no |
