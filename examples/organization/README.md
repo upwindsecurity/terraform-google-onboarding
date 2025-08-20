@@ -48,4 +48,5 @@ organization-level setup and multiple project onboarding scenarios with conditio
 | <a name="output_organization_service_account_project"></a> [organization\_service\_account\_project](#output\_organization\_service\_account\_project) | The project of the organization service account |
 | <a name="output_organization_service_account_unique_id"></a> [organization\_service\_account\_unique\_id](#output\_organization\_service\_account\_unique\_id) | The unique ID of the organization service account |
 | <a name="output_post_onboarding_setup_completed"></a> [post\_onboarding\_setup\_completed](#output\_post\_onboarding\_setup\_completed) | Whether post-onboarding setup was completed (if optional resources were created) |
+| <a name="output_workload_identity_provider_name"></a> [workload\_identity\_provider\_name](#output\_workload\_identity\_provider\_name) | Full path name of the workload identity pool provider |
 <!-- END_TF_DOCS -->

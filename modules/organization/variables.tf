@@ -152,6 +152,12 @@ variable "enable_cloudscanners" {
   default     = false
 }
 
+variable "enable_dspm_scanning" {
+  description = "Enable DSPM scanning"
+  type        = bool
+  default     = true
+}
+
 variable "google_service_account_display_name" {
   description = "The display name for the service account."
   type        = string
