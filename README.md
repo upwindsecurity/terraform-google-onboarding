@@ -46,6 +46,10 @@ available, see the [tags on this repository](https://github.com/upwindsecurity/t
 
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
+## Workflows
+
+Please see the [Actions Page](https://github.com/upwindsecurity/terraform-google-onboarding/actions) for automations
+
 ## Support
 
 - [Documentation](https://docs.upwind.io)
