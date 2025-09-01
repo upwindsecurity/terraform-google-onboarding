@@ -5,7 +5,7 @@ seamlessly connect their entire organization for comprehensive monitoring and se
 
 ## APIs
 
-The Terraform module will enable these APIs on the orchestrator project:
+The Terraform module will enable these APIs on the orchestrator project. Setting `enable_all_project_apis` to false will prevent this operation. Setting specific project IDs in `project_apis_to_enable` will control which projects to enable APIs on.
 
 ### Required for Upwind operations
 
@@ -119,7 +119,7 @@ No modules.
 | [google_project_iam_member.compute_service_agent_minimal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.upwind_management_sa_cloudscanner_deployment_role_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.upwind_management_sa_secret_access_role_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
-| [google_project_service.enable_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
+| [google_project_iam_member.upwind_management_sa_token_binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_secret_manager_secret.scanner_client_id](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret) | resource |
 | [google_secret_manager_secret.scanner_client_secret](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret) | resource |
 | [google_secret_manager_secret.upwind_client_id](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret) | resource |
@@ -144,6 +144,7 @@ No modules.
 | [google_service_account_iam_member.scanner_can_impersonate_scaler](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
 | [google_organization.org](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/organization) | data source |
 | [google_project.current](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project) | data source |
+| [module.shared_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
 
 ## Inputs
 
@@ -157,14 +158,13 @@ No modules.
 | <a name="input_resource_suffix"></a> [resource\_suffix](#input\_resource\_suffix) | The suffix to append to all resources created by this module. | `string` | `""` | no |
 | <a name="input_scanner_client_id"></a> [scanner\_client\_id](#input\_scanner\_client\_id) | The client ID used for authentication with the Upwind Cloudscanner Service. | `string` | `""` | no |
 | <a name="input_scanner_client_secret"></a> [scanner\_client\_secret](#input\_scanner\_client\_secret) | The client secret for authentication with the Upwind Cloudscanner Service. | `string` | `""` | no |
-| <a name="input_upwind_apis"></a> [upwind\_apis](#input\_upwind\_apis) | List of GCP APIs to enable for Upwind Operations. | `list(string)` | <pre>[<br/>  "cloudasset.googleapis.com",<br/>  "cloudresourcemanager.googleapis.com",<br/>  "compute.googleapis.com",<br/>  "iam.googleapis.com",<br/>  "container.googleapis.com",<br/>  "sts.googleapis.com",<br/>  "storageinsights.googleapis.com"<br/>]</pre> | no |
 | <a name="input_upwind_client_id"></a> [upwind\_client\_id](#input\_upwind\_client\_id) | The client ID used for authentication with the Upwind Authorization Service. | `string` | n/a | yes |
 | <a name="input_upwind_client_secret"></a> [upwind\_client\_secret](#input\_upwind\_client\_secret) | The client secret for authentication with the Upwind Authorization Service. | `string` | n/a | yes |
-| <a name="input_upwind_cloudscanner_apis"></a> [upwind\_cloudscanner\_apis](#input\_upwind\_cloudscanner\_apis) | List of GCP APIs to enable for Upwind Cloud Scanners. | `list(string)` | <pre>[<br/>  "secretmanager.googleapis.com",<br/>  "iam.googleapis.com",<br/>  "iamcredentials.googleapis.com",<br/>  "compute.googleapis.com",<br/>  "run.googleapis.com",<br/>  "cloudscheduler.googleapis.com",<br/>  "cloudresourcemanager.googleapis.com"<br/>]</pre> | no |
 | <a name="input_upwind_orchestrator_project"></a> [upwind\_orchestrator\_project](#input\_upwind\_orchestrator\_project) | The orchestrator project where Upwind resources are created. | `string` | n/a | yes |
 | <a name="input_upwind_organization_id"></a> [upwind\_organization\_id](#input\_upwind\_organization\_id) | The identifier of the Upwind organization to integrate with. | `string` | n/a | yes |
-| <a name="input_upwind_posture_apis"></a> [upwind\_posture\_apis](#input\_upwind\_posture\_apis) | List of GCP APIs to enable for Upwind Posture. | `list(string)` | <pre>[<br/>  "accessapproval.googleapis.com",<br/>  "admin.googleapis.com",<br/>  "alloydb.googleapis.com",<br/>  "apikeys.googleapis.com",<br/>  "bigquery.googleapis.com",<br/>  "dataproc.googleapis.com",<br/>  "dns.googleapis.com",<br/>  "cloudfunctions.googleapis.com",<br/>  "cloudkms.googleapis.com",<br/>  "logging.googleapis.com",<br/>  "monitoring.googleapis.com",<br/>  "redis.googleapis.com",<br/>  "sqladmin.googleapis.com",<br/>  "storage.googleapis.com",<br/>  "essentialcontacts.googleapis.com",<br/>  "serviceusage.googleapis.com"<br/>]</pre> | no |
 | <a name="input_workload_identity_pool_project"></a> [workload\_identity\_pool\_project](#input\_workload\_identity\_pool\_project) | The project where the workload identity pool is created. Defaults to the orchestrator project if not specified. | `string` | `""` | no |
+| <a name="input_enable_all_project_apis"></a> [enable\_all\_project\_apis](#input\_enable\_all\_project\_apis) | Whether to enable required APIs against detected projects. Defaults to true. | `bool` | `true` | no |
+| <a name="input_project_apis_to_enable"></a> [project\_apis\_to\_enable](#input\_project\_apis\_to\_enable) | Which projects to enable APIs on. Defaults to all organization projects. | `list(string)` | `all` | no |
 
 ## Outputs
 
@@ -175,6 +175,4 @@ No modules.
 | <a name="output_upwind_management_service_account_name"></a> [upwind\_management\_service\_account\_name](#output\_upwind\_management\_service\_account\_name) | The name of the Upwind Management Service Account. |
 | <a name="output_upwind_management_service_account_project"></a> [upwind\_management\_service\_account\_project](#output\_upwind\_management\_service\_account\_project) | The project ID of the Upwind Management Service Account. |
 | <a name="output_upwind_management_service_account_unique_id"></a> [upwind\_management\_service\_account\_unique\_id](#output\_upwind\_management\_service\_account\_unique\_id) | The unique ID of the Upwind Management Service Account. |
-| <a name="output_upwind_workload_identity_pool_id"></a> [upwind\_workload\_identity\_pool\_id](#output\_upwind\_workload\_identity\_pool\_id) | The ID of the Upwind Workload Identity Pool. |
-| <a name="output_workload_identity_provider_name"></a> [workload\_identity\_provider\_name](#output\_workload\_identity\_provider\_name) | Full path name of the workload identity pool provider |
 <!-- END_TF_DOCS -->

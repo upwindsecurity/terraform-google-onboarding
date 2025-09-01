@@ -32,3 +32,19 @@ output "workload_identity_provider_name" {
   description = "Full path name of the workload identity pool provider"
   value       = "projects/${data.google_project.current.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.main.workload_identity_pool_id}/providers/${google_iam_workload_identity_pool_provider.aws.workload_identity_pool_provider_id}"
 }
+
+# API related
+output "enabled_apis" {
+  description = "List of APIs enabled by this module."
+  value       = module.shared_apis.enabled_apis
+}
+
+output "projects_with_apis_enabled" {
+  description = "List of projects where APIs were enabled by this module."
+  value       = module.shared_apis.projects_with_apis
+}
+
+output "api_count" {
+  description = "Total number of APIs enabled by this module."
+  value       = module.shared_apis.api_count
+}
