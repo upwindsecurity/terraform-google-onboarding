@@ -13,8 +13,21 @@ locals {
   # resource_suffix = 10 chars with a hyphen
   resource_suffix_hyphen     = format("%s%s", local.org_id_truncated, var.resource_suffix == "" ? "" : "-${var.resource_suffix}")
   resource_suffix_underscore = format("%s%s", local.org_id_truncated, var.resource_suffix == "" ? "" : "_${var.resource_suffix}")
+  # Merge default labels with user-provided labels
+  # User labels override defaults if keys conflict
+  merged_labels = merge(var.default_labels, var.labels)
+
+  # Common validation
+  validated_labels = {
+    for k, v in local.merged_labels : k => v
+    if can(regex("^[a-z0-9_-]{1,63}$", k)) && can(regex("^[a-z0-9_-]{0,63}$", v))
+  }
 }
 
 data "google_project" "current" {
   project_id = local.project
+}
+
+provider "google" {
+  default_labels = local.validated_labels
 }

@@ -103,3 +103,20 @@ variable "is_dev" {
   type        = bool
   default     = false
 }
+
+variable "labels" {
+  description = "A map of labels to apply to all resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "default_labels" {
+  description = "Default labels applied to all resources (can be overridden)"
+  type        = map(string)
+  default = {
+    managed_by = "terraform"
+    component  = "upwind"
+  }
+}
+
+# endregion upwind

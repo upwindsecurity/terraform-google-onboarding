@@ -133,3 +133,15 @@ output "cloud_run_permissions" {
   description = "List of IAM permissions for Cloud Run role."
   value       = var.cloud_run_permissions
 }
+
+### Labels
+
+output "labels" {
+  description = "Labels applied to all resources."
+  value       = var.labels
+}
+
+output "default_labels" {
+  description = "Default labels applied to all resources (can be overridden)."
+  value       = var.default_labels
+}
