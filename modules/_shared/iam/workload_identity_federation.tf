@@ -43,34 +43,34 @@ resource "google_iam_workload_identity_pool_provider" "aws" {
 
 # Management SA access
 resource "google_service_account_iam_member" "management_workload_identity" {
-  service_account_id = module.iam.upwind_management_sa.id
+  service_account_id = google_service_account.upwind_management_sa.id
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
-  depends_on         = [module.iam.upwind_management_sa]
+  depends_on         = [google_service_account.upwind_management_sa]
 }
 
 # Service Account Token Creator for impersonation
 resource "google_service_account_iam_member" "management_token_creator" {
-  service_account_id = module.iam.upwind_management_sa.id
+  service_account_id = google_service_account.upwind_management_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
-  depends_on         = [module.iam.upwind_management_sa]
+  depends_on         = [google_service_account.upwind_management_sa]
 }
 
 # Cloudscanner SA access
 resource "google_service_account_iam_member" "cloudscanner_workload_identity" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = module.iam.cloudscanner_sa.id
+  service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
-  depends_on         = [module.iam.cloudscanner_sa]
+  depends_on         = [google_service_account.cloudscanner_sa[0]]
 }
 
 # Service Account Token Creator for cloudscanner impersonation
 resource "google_service_account_iam_member" "cloudscanner_token_creator" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = module.iam.cloudscanner_sa.id
+  service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.serviceAccountTokenCreator"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
-  depends_on         = [module.iam.cloudscanner_sa]
+  depends_on         = [google_service_account.cloudscanner_sa[0]]
 }

@@ -1,6 +1,3 @@
-### IAM Roles
-# Nothing custom required for non-cloudscanner operations
-
 ### IAM Members
 
 # Give the management service account the basic viewer role
@@ -25,23 +22,7 @@ resource "google_organization_iam_custom_role" "storage_reader_role" {
   title       = "Upwind Management SA Storage Reader"
   description = "Custom role for Upwind Management Service Account to read storage buckets."
 
-  permissions = [
-    "storage.buckets.get",
-    "storage.buckets.getIamPolicy",
-    "storage.buckets.getIpFilter",
-    "storage.buckets.list",
-    "storage.buckets.listEffectiveTags",
-    "storage.buckets.listTagBindings",
-    "storage.bucketOperations.get",
-    "storage.bucketOperations.list",
-    "storage.folders.get",
-    "storage.folders.list",
-    "storage.managedFolders.get",
-    "storage.managedFolders.getIamPolicy",
-    "storage.managedFolders.list",
-    "storage.objects.getIamPolicy",
-    "storage.objects.list",
-  ]
+  permissions = module.iam.storage_read_permissions
 }
 
 resource "google_organization_iam_member" "upwind_management_sa_storage_reader_role_member" {

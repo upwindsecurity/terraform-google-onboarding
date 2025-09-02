@@ -1,3 +1,66 @@
+### region google
+
+variable "google_service_account_display_name" {
+  description = "Display name for the management service account"
+  type        = string
+}
+
+### endregion google
+
+### region secrets
+
+variable "upwind_client_id" {
+  description = "The client ID used for authentication with the Upwind Authorization Service."
+  type        = string
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9]{1,}", var.upwind_client_id))
+    error_message = "The Upwind client ID must be alphanumeric."
+  }
+}
+
+variable "upwind_client_secret" {
+  description = "The client secret for authentication with the Upwind Authorization Service."
+  type        = string
+  sensitive   = true
+}
+
+variable "scanner_client_id" {
+  description = "The client ID used for authentication with the Upwind Cloudscanner Service."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.scanner_client_id == "" || (can(regex("^[a-zA-Z0-9]{1,}", var.scanner_client_id)))
+    error_message = "The Upwind scanner client ID must be empty or alphanumeric."
+  }
+}
+
+variable "scanner_client_secret" {
+  description = "The client secret for authentication with the Upwind Cloudscanner Service."
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+# endregion secrets
+
+# region workload identity federation
+variable "workload_identity_pool_project" {
+  description = "The project where the workload identity pool is created. Defaults to the orchestrator project if not specified."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.workload_identity_pool_project == "" || can(regex("^[a-z][a-z0-9-]{4,28}[a-z0-9]$", var.workload_identity_pool_project))
+    error_message = "The Workload Identity Pool project ID must be 6-30 characters, lowercase letters, numbers or hyphens, must start with a letter, and cannot end with a hyphen."
+  }
+}
+
+# endregion workload identity federation
+
+# region upwind
+
 variable "upwind_organization_id" {
   description = "The identifier of the Upwind organization to integrate with."
   type        = string
@@ -35,7 +98,8 @@ variable "enable_cloudscanners" {
   default     = true
 }
 
-variable "google_service_account_display_name" {
-  description = "Display name for the management service account"
-  type        = string
+variable "is_dev" {
+  description = "Flag to indicate if the environment is a development environment."
+  type        = bool
+  default     = false
 }
