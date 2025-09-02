@@ -144,7 +144,6 @@ No modules.
 | [google_service_account_iam_member.scanner_can_impersonate_scaler](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
 | [google_organization.org](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/organization) | data source |
 | [google_project.current](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project) | data source |
-| [module.shared_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
 
 ## Inputs
 
@@ -163,8 +162,6 @@ No modules.
 | <a name="input_upwind_orchestrator_project"></a> [upwind\_orchestrator\_project](#input\_upwind\_orchestrator\_project) | The orchestrator project where Upwind resources are created. | `string` | n/a | yes |
 | <a name="input_upwind_organization_id"></a> [upwind\_organization\_id](#input\_upwind\_organization\_id) | The identifier of the Upwind organization to integrate with. | `string` | n/a | yes |
 | <a name="input_workload_identity_pool_project"></a> [workload\_identity\_pool\_project](#input\_workload\_identity\_pool\_project) | The project where the workload identity pool is created. Defaults to the orchestrator project if not specified. | `string` | `""` | no |
-| <a name="input_enable_all_project_apis"></a> [enable\_all\_project\_apis](#input\_enable\_all\_project\_apis) | Whether to enable required APIs against detected projects. Defaults to true. | `bool` | `true` | no |
-| <a name="input_project_apis_to_enable"></a> [project\_apis\_to\_enable](#input\_project\_apis\_to\_enable) | Which projects to enable APIs on. Defaults to all organization projects. | `list(string)` | `all` | no |
 
 ## Outputs
 

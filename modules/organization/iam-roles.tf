@@ -8,13 +8,13 @@
 resource "google_organization_iam_member" "upwind_management_sa_org_viewer_role_member" {
   org_id = data.google_organization.org.org_id
   role   = "roles/viewer"
-  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 resource "google_organization_iam_member" "upwind_management_sa_folder_viewer_role_member" {
   org_id = data.google_organization.org.org_id
   role   = "roles/resourcemanager.folderViewer"
-  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Specifically grant permissions to read storage objects
@@ -47,14 +47,14 @@ resource "google_organization_iam_custom_role" "storage_reader_role" {
 resource "google_organization_iam_member" "upwind_management_sa_storage_reader_role_member" {
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.storage_reader_role.id
-  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Grant Cloud Asset Inventory permissions for customer-asset-collector across all projects
 resource "google_organization_iam_member" "upwind_management_sa_asset_viewer_role_member" {
   org_id = data.google_organization.org.org_id
   role   = "roles/cloudasset.viewer"
-  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Required for DSPM functionality when cloudscanners are enabled
@@ -62,5 +62,5 @@ resource "google_organization_iam_member" "cloudscanner_sa_storage_reader_role_m
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.storage_reader_role.id
-  member = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }

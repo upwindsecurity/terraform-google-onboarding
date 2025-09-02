@@ -168,15 +168,4 @@ variable "google_service_account_display_name" {
   }
 }
 
-variable "enable_all_project_apis" {
-  description = "Enable APIs on all projects in the organization"
-  type        = bool
-  default     = true
-}
-
-variable "project_apis_to_enable" {
-  description = "Specific project IDs to enable APIs on (used when enable_all_project_apis is false)"
-  type        = list(string)
-  default     = []
-}
 # endregion google

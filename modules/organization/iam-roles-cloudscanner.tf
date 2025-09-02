@@ -1,167 +1,42 @@
-### Cloudscanner Specific IAM Roles
 
-# Used by the management service account to deploy the cloudscanner resources
-resource "google_project_iam_custom_role" "upwind_management_sa_cloudscanner_deployment_role" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  project     = local.project
-  role_id     = "CloudScannerDeploymentRole_${local.resource_suffix_underscore}"
-  title       = "upwind-mgmt-${local.resource_suffix_hyphen}-cs-deployment"
-  description = "Minimum permissions required to deploy the Cloudscanner resources"
-  permissions = [
-    # Compute Engine resource creation permissions
-    "compute.instanceTemplates.create",
-    "compute.instanceTemplates.get",
-    "compute.instanceTemplates.delete",
-    "compute.instanceGroupManagers.create",
-    "compute.instanceGroupManagers.get",
-    "compute.instanceGroupManagers.delete",
-    "compute.instanceGroupManagers.update",
-    "compute.instanceGroups.delete",
-    "compute.instances.create",
-    "compute.instances.get",
-    "compute.instances.delete",
-    "compute.instances.setMetadata",
-    "compute.instances.setTags",
-    "compute.instances.setLabels",
-    "compute.disks.create",
-    "compute.disks.get",
-    "compute.disks.delete",
-
-    # Networking resource creation permissions
-    "compute.networks.create",
-    "compute.networks.get",
-    "compute.networks.updatePolicy",
-    "compute.networks.delete",
-    "compute.subnetworks.create",
-    "compute.subnetworks.get",
-    "compute.subnetworks.use",
-    "compute.subnetworks.delete",
-    "compute.routers.create",
-    "compute.routers.get",
-    "compute.routers.update", # For creating NAT on the router
-    "compute.routers.delete",
-    "compute.firewalls.create",
-    "compute.firewalls.get",
-    "compute.firewalls.delete",
-
-    # Cloud Run creation permissions
-    "run.jobs.create",
-    "run.jobs.get",
-    "run.jobs.delete",
-
-    # Cloud Scheduler creation permissions
-    "cloudscheduler.jobs.create",
-    "cloudscheduler.jobs.get",
-    "cloudscheduler.jobs.enable",
-    "cloudscheduler.jobs.delete",
-
-    # IAM permissions for setting up project bindings
-    "resourcemanager.projects.getIamPolicy",
-    "resourcemanager.projects.setIamPolicy",
-
-    # Service Account reference permission
-    "iam.serviceAccounts.get",
-    "iam.serviceAccounts.actAs", # Required to assign a service account to instances
-    "iam.serviceAccounts.getIamPolicy",
-    "iam.serviceAccounts.setIamPolicy",
-    "iam.serviceAccounts.getAccessToken", # For service account token operations
-
-    # Required for Terraform to check operation status
-    "compute.regionOperations.get",
-
-    # Required basic service usage
-    "serviceusage.services.use"
-  ]
+moved {
+  from = google_project_iam_custom_role.upwind_management_sa_cloudscanner_deployment_role
+  to   = module.iam.google_project_iam_custom_role.upwind_management_sa_cloudscanner_deployment_role
 }
 
-# Used for basic cloudscanner operation
-resource "google_project_iam_custom_role" "cloudscanner_basic_role" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  project     = local.project
-  role_id     = "CloudScannerBasicRole_${local.resource_suffix_underscore}"
-  title       = "upwind-cs-${local.resource_suffix_hyphen}-basic"
-  description = "Minimum permissions required for Cloudscanner operations"
-
-  permissions = [
-    "compute.disks.createSnapshot",
-    "compute.disks.get",
-    "compute.disks.list",
-    "compute.instances.attachDisk",
-    "compute.instances.detachDisk",
-    "compute.instances.get",
-    "compute.instances.list",
-    "compute.snapshots.get",
-    "compute.snapshots.setLabels",
-    "compute.snapshots.useReadOnly",
-    "compute.zoneOperations.get",
-    "compute.globalOperations.get",
-    "iam.serviceAccounts.actAs",
-  ]
+moved {
+  from = google_project_iam_custom_role.cloudscanner_basic_role
+  to   = module.iam.google_project_iam_custom_role.cloudscanner_basic_role
 }
 
-# Used by the CloudScanner Scaler to scale the CloudScanner Instance Groups
-resource "google_project_iam_custom_role" "cloudscanner_scaler_role" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  role_id     = "CloudScannerScalerRole_${local.resource_suffix_underscore}"
-  project     = local.project
-  title       = "upwind-cs-${local.resource_suffix_hyphen}-scaler-base"
-  description = "Minimum permissions required for Cloudscanner Scaler operations"
-
-  permissions = [
-    "compute.instanceGroups.get",  # Required to query the status of the instance group. Should be constrained to CS MIGs.
-    "compute.instanceGroups.list", # Required to query the status of the instance group. Should be constrained to CS MIGs.
-    "compute.instanceGroups.update",
-    "compute.instanceGroupManagers.get",
-    "compute.instanceGroupManagers.list",
-    "compute.instanceGroupManagers.update", # Required to change the target size and remove instances from instance group. Should be constrained to CS MIGs.
-    "compute.zoneOperations.get",           # The internal implementation queries the zone operations when removing disks.
-    "compute.globalOperations.get",         # The internal implementation queries the global operations when removing snapshots.
-    "compute.subnetworks.get",
-    "compute.subnetworks.use",
-  ]
+moved {
+  from = google_project_iam_custom_role.cloudscanner_scaler_role
+  to   = module.iam.google_project_iam_custom_role.cloudscanner_scaler_role
 }
 
-# Ability to access the Upwind Client ID and Secret
-resource "google_project_iam_custom_role" "cloudscanner_secret_access_role" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  project = local.project
-  role_id = "CloudScannerSecretAccessRole_${local.resource_suffix_underscore}"
-  title   = "upwind-cs-${local.resource_suffix_hyphen}-secret-access"
-
-  permissions = [
-    "secretmanager.versions.list",
-    "secretmanager.versions.access",
-  ]
+moved {
+  from = google_project_iam_custom_role.cloudscanner_secret_access_role
+  to   = module.iam.google_project_iam_custom_role.cloudscanner_secret_access_role
 }
 
-# Grants permission for Cloudscanners to manage their own instance templates
-resource "google_project_iam_custom_role" "cloudscanner_instance_template_mgmt_role" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  role_id = "CloudScannerInstTmplMgmtRole_${local.resource_suffix_underscore}"
-  project = local.project
-  title   = "upwind-cs-${local.resource_suffix_hyphen}-instance-template-mgmt"
-
-  permissions = [
-    "compute.instanceTemplates.get",
-    "compute.instanceTemplates.create",
-    "compute.instanceTemplates.delete",
-    "compute.instanceTemplates.useReadOnly",
-  ]
+moved {
+  from = google_project_iam_custom_role.cloudscanner_instance_template_mgmt_role
+  to   = module.iam.google_project_iam_custom_role.cloudscanner_instance_template_mgmt_role
 }
 
-# Grants permission for Cloudscanners to test create their own instance templates when updating the template
-resource "google_project_iam_custom_role" "cloudscanner_instance_template_test_creation_role" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  role_id = "CloudScannerInstTmplTestCreationRole_${local.resource_suffix_underscore}"
-  project = local.project
-  title   = "upwind-cs-${local.resource_suffix_hyphen}-instance-template-mgmt-test-creation"
+moved {
+  from = google_project_iam_custom_role.cloudscanner_instance_template_test_creation_role
+  to   = module.iam.google_project_iam_custom_role.cloudscanner_instance_template_test_creation_role
+}
 
-  permissions = [
-    "compute.instances.create",
-    "compute.instances.setMetadata",
-    "compute.instances.setLabels",
-    "compute.disks.create",
-  ]
+moved {
+  from = google_project_iam_custom_role.disk_writer
+  to   = module.iam.google_project_iam_custom_role.disk_writer
+}
+
+moved {
+  from = google_project_iam_custom_role.compute_service_agent_minimal
+  to   = module.iam.google_project_iam_custom_role.compute_service_agent_minimal
 }
 
 ### IAM Members
@@ -170,8 +45,8 @@ resource "google_project_iam_custom_role" "cloudscanner_instance_template_test_c
 resource "google_project_iam_member" "upwind_management_sa_cloudscanner_deployment_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.upwind_management_sa_cloudscanner_deployment_role[0].name
-  member  = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  role    = module.iam.google_project_iam_custom_role.upwind_management_sa_cloudscanner_deployment_role.name
+  member  = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Custom role for IAM management with minimal required permissions
@@ -253,7 +128,7 @@ resource "google_organization_iam_custom_role" "snapshot_deleter" {
 
 # Grants access to storage bucket objects for DSPM functionality
 resource "google_organization_iam_custom_role" "storage_object_reader" {
-  count       = (var.enable_cloudscanners && var.enable_dspm_scanning) ? 1 : 0
+  count       = var.enable_cloudscanners ? 1 : 0
   org_id      = data.google_organization.org.org_id
   role_id     = "CloudScannerStorageObjectReader_${local.resource_suffix_underscore}"
   title       = "Upwind Storage Object Reader"
@@ -264,36 +139,21 @@ resource "google_organization_iam_custom_role" "storage_object_reader" {
   ]
 }
 
-resource "google_project_iam_custom_role" "disk_writer" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  project     = local.project
-  role_id     = "CloudScannerDiskWriter_${local.resource_suffix_underscore}"
-  title       = "Upwind Disk Writer"
-  description = "Disk Write operations in orchestrator project"
-
-  permissions = [
-    "compute.disks.create",
-    "compute.disks.delete",
-    "compute.disks.setLabels",
-    "compute.disks.use",
-  ]
-}
-
 # Assign the read IAM role to the management service account (unconditional)
 resource "google_organization_iam_member" "upwind_management_sa_iam_read_role_member" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.upwind_management_sa_iam_read_role[0].id
-  member = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Allow scaler to impersonate scanner SA AND allow Compute Engine service to use scanner SA for VM operations
 resource "google_service_account_iam_binding" "scaler_and_compute_can_use_cloudscanner" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_sa[0].id
+  service_account_id = module.iam.cloudscanner_sa.id
   role               = "roles/iam.serviceAccountUser"
   members = [
-    "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}",
+    "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}",
     "serviceAccount:${data.google_project.current.number}@cloudservices.gserviceaccount.com"
   ]
 }
@@ -301,8 +161,8 @@ resource "google_service_account_iam_binding" "scaler_and_compute_can_use_clouds
 resource "google_project_iam_member" "cloudscanner_sa_basic_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_basic_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_basic_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }
 
 # Required to get instances across projects
@@ -310,7 +170,7 @@ resource "google_organization_iam_member" "upwind_cloudscanner_sa_compute_viewer
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = "roles/compute.viewer"
-  member = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }
 
 # Required to get disks and snapshots of target instances across projects
@@ -319,8 +179,8 @@ resource "google_organization_iam_binding" "upwind_cloudscanner_snapshot_reader_
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.snapshot_reader[0].name
   members = [
-    "serviceAccount:${google_service_account.cloudscanner_sa[0].email}",
-    "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}"
+    "serviceAccount:${module.iam.cloudscanner_sa.email}",
+    "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
   ]
 }
 
@@ -332,8 +192,8 @@ resource "google_organization_iam_binding" "cloudscanner_snapshot_creator_role_b
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.snapshot_creator[0].name
   members = [
-    "serviceAccount:${google_service_account.cloudscanner_sa[0].email}",
-    "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}"
+    "serviceAccount:${module.iam.cloudscanner_sa.email}",
+    "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
   ]
 
   condition {
@@ -349,8 +209,8 @@ resource "google_organization_iam_binding" "cloudscanner_scaler_snapshot_deleter
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.snapshot_deleter[0].name
   members = [
-    "serviceAccount:${google_service_account.cloudscanner_sa[0].email}",
-    "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}"
+    "serviceAccount:${module.iam.cloudscanner_sa.email}",
+    "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
   ]
   condition {
     # Limit storage deletion permissions to snapshots we generate only
@@ -360,11 +220,11 @@ resource "google_organization_iam_binding" "cloudscanner_scaler_snapshot_deleter
 }
 
 resource "google_organization_iam_binding" "cloudscanner_sa_storage_object_reader_role_binding" {
-  count  = (var.enable_cloudscanners && var.enable_dspm_scanning) ? 1 : 0
+  count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.storage_object_reader[0].name
   members = [
-    "serviceAccount:${google_service_account.cloudscanner_sa[0].email}",
+    "serviceAccount:${module.iam.cloudscanner_sa.email}",
   ]
 }
 
@@ -372,10 +232,10 @@ resource "google_organization_iam_binding" "cloudscanner_sa_storage_object_reade
 resource "google_project_iam_binding" "cloudscanner_disk_writer_role_binding" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.disk_writer[0].name
+  role    = module.iam.google_project_iam_custom_role.disk_writer.name
   members = [
-    "serviceAccount:${google_service_account.cloudscanner_sa[0].email}",
-    "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}"
+    "serviceAccount:${module.iam.cloudscanner_sa.email}",
+    "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
   ]
   condition {
     # Limit disk creation/deletion permissions to Upwind named disks only in orchestrator project
@@ -400,29 +260,29 @@ resource "google_organization_iam_member" "cloudscanner_cloud_run_role_member" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.cloudscanner_cloud_run_role[0].name
-  member = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }
 
 resource "google_project_iam_member" "cloudscanner_sa_scaler_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_scaler_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}" # CloudScanner VMs
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_scaler_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_sa.email}" # CloudScanner VMs
 }
 
 resource "google_project_iam_member" "cloudscanner_scaler_sa_scaler_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_scaler_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}" # CloudScanner Scaler (Cloud Run)"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_scaler_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}" # CloudScanner Scaler (Cloud Run)"
 }
 
 # Only grant access to the Upwind Client ID and Secret
 resource "google_project_iam_member" "upwind_management_sa_secret_access_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_secret_access_role[0].name
-  member  = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_secret_access_role.name
+  member  = "serviceAccount:${module.iam.upwind_management_sa.email}"
 
   condition {
     # Limit secret access permissions to all versions of Upwind CloudScanner credentials only
@@ -435,8 +295,8 @@ resource "google_project_iam_member" "upwind_management_sa_secret_access_role_me
 resource "google_project_iam_member" "cloudscanner_secret_access_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_secret_access_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_secret_access_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 
   condition {
     # Limit secret access permissions to all versions of Upwind CloudScanner credentials only
@@ -448,8 +308,8 @@ resource "google_project_iam_member" "cloudscanner_secret_access_role_member" {
 resource "google_project_iam_member" "cloudscanner_scaler_secret_access_scaler_role_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_secret_access_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}" # CloudScanner Scaler (Cloud Run)"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_secret_access_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}" # CloudScanner Scaler (Cloud Run)"
 
   condition {
     # Limit secret access permissions to all versions of Upwind CloudScanner credentials only
@@ -464,7 +324,7 @@ resource "google_project_iam_member" "cloudscanner_scaler_sa_run_invoker" {
 
   # This predefined role contains 'run.jobs.run' and 'run.routes.invoke' permissions only so no need for custom role
   role   = "roles/run.invoker"
-  member = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}"
+  member = "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
 
   condition {
     # Limit invocation permissions to the scaler function only
@@ -480,8 +340,8 @@ resource "google_project_iam_member" "cloudscanner_scaler_sa_run_invoker" {
 resource "google_project_iam_member" "cloudscanner_instance_template_mgmt_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_instance_template_mgmt_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}" # Cloud Scanner Scaler (Cloud Run)"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_instance_template_mgmt_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}" # Cloud Scanner Scaler (Cloud Run)"
 
   condition {
     # Limit the use of the roles to cloudscanner only instance templates
@@ -493,8 +353,8 @@ resource "google_project_iam_member" "cloudscanner_instance_template_mgmt_member
 resource "google_project_iam_member" "cloudscanner_instance_template_test_creation_member" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.cloudscanner_instance_template_test_creation_role[0].name
-  member  = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}" # Cloud Scanner Scaler (Cloud Run)"
+  role    = module.iam.google_project_iam_custom_role.cloudscanner_instance_template_test_creation_role.name
+  member  = "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}" # Cloud Scanner Scaler (Cloud Run)"
 
   condition {
     # Upgrading templates performs a 'dry-run' of instance creation, limit to resources using this pattern
@@ -506,9 +366,9 @@ resource "google_project_iam_member" "cloudscanner_instance_template_test_creati
 # Allows the CloudScanner to impersonate the CloudScanner Scaler Service Account
 resource "google_service_account_iam_member" "cloudscanner_impersonate_scaler" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_scaler_sa[0].id
+  service_account_id = module.iam.cloudscanner_scaler_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  member             = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }
 
 # Allows the Google Cloud Run service agent to manage Cloud Run jobs
@@ -517,77 +377,51 @@ resource "google_project_iam_member" "cloudrun_service_agent" {
   project = local.project
   role    = "roles/run.serviceAgent"
   member  = "serviceAccount:service-${data.google_project.current.number}@serverless-robot-prod.iam.gserviceaccount.com"
-
-  # Wait for the Cloud Run API to be enabled before applying this role
-  depends_on = [module.shared_apis]
-}
-
-# Required when scaling up the Instance Group as the Compute Engine service agent
-# is the entity that performs the scaling operations
-resource "google_project_iam_custom_role" "compute_service_agent_minimal" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  project = local.project
-  role_id = "ComputeServiceAgentMinimal_${local.resource_suffix_underscore}"
-  title   = "Minimal Compute Service Agent Permissions"
-
-  permissions = [
-    "compute.disks.create",
-    "compute.disks.use",
-    "compute.instances.create",
-    "compute.instances.use",
-    "compute.instances.delete",
-    "compute.instances.setLabels",
-    "compute.instances.setTags",
-    "compute.instances.setMetadata",
-    "compute.instances.setServiceAccount",
-    "compute.subnetworks.use",
-    "compute.instanceGroups.update"
-  ]
 }
 
 resource "google_project_iam_member" "compute_service_agent_minimal" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
-  role    = google_project_iam_custom_role.compute_service_agent_minimal[0].name
+  role    = module.iam.google_project_iam_custom_role.compute_service_agent_minimal.name
   member  = "serviceAccount:${data.google_project.current.number}@cloudservices.gserviceaccount.com"
 }
 
 # Allow management SA to create tokens for scanner SA
 resource "google_service_account_iam_member" "management_can_impersonate_scanner" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_sa[0].id
+  service_account_id = module.iam.cloudscanner_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member             = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Allow management SA to create tokens for scaler SA
 resource "google_service_account_iam_member" "management_can_impersonate_scaler" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_scaler_sa[0].id
+  service_account_id = module.iam.cloudscanner_scaler_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+  member             = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
 # Allow scanner SA to create tokens for scaler SA
 resource "google_service_account_iam_member" "scanner_can_impersonate_scaler" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_scaler_sa[0].id
+  service_account_id = module.iam.cloudscanner_scaler_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+  member             = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }
 
 # Allow scaler SA to create tokens for scanner SA
 resource "google_service_account_iam_member" "scaler_can_impersonate_scanner" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_sa[0].id
+  service_account_id = module.iam.cloudscanner_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}"
+  member             = "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
 }
 
 # Allow Cloud Scheduler to impersonate scaler SA
 resource "google_service_account_iam_member" "cloudscheduler_can_impersonate_scaler" {
   count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_scaler_sa[0].id
+  service_account_id = module.iam.cloudscanner_scaler_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
   member             = "serviceAccount:service-${data.google_project.current.number}@gcp-sa-cloudscheduler.iam.gserviceaccount.com"
 }
