@@ -352,4 +352,10 @@ resource "google_project_iam_member" "compute_service_agent_minimal" {
   member  = "serviceAccount:${data.google_project.current.number}@cloudservices.gserviceaccount.com"
 }
 
+resource "google_secret_manager_secret_iam_member" "terraform_labels_viewer" {
+  project   = local.project
+  secret_id = google_secret_manager_secret.terraform_labels.secret_id
+  role      = "roles/secretmanager.viewer"
+  member    = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+}
 
