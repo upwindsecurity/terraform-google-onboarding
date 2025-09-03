@@ -63,7 +63,7 @@ resource "google_service_account_iam_member" "cloudscanner_workload_identity" {
   service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
-  depends_on         = [google_service_account.cloudscanner_sa]
+  depends_on         = [google_service_account.cloudscanner_sa[0]]
 }
 
 # Service Account Token Creator for cloudscanner impersonation
@@ -72,5 +72,5 @@ resource "google_service_account_iam_member" "cloudscanner_token_creator" {
   service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.serviceAccountTokenCreator"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
-  depends_on         = [google_service_account.cloudscanner_sa]
+  depends_on         = [google_service_account.cloudscanner_sa[0]]
 }
