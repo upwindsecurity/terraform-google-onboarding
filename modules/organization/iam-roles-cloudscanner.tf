@@ -53,10 +53,10 @@ resource "google_organization_iam_custom_role" "storage_object_reader" {
 
 # Required for Cloud Run scanning
 resource "google_organization_iam_custom_role" "cloudscanner_cloud_run_role" {
-  count   = var.enable_cloudscanners ? 1 : 0
-  org_id  = data.google_organization.org.org_id
-  role_id = "CloudScannerCloudRunRole_${local.resource_suffix_underscore}"
-  title   = "upwind-role-${local.resource_suffix_hyphen}-cloud-run"
+  count       = var.enable_cloudscanners ? 1 : 0
+  org_id      = data.google_organization.org.org_id
+  role_id     = "CloudScannerCloudRunRole_${local.resource_suffix_underscore}"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-cloud-run"
   permissions = module.iam.cloud_run_permissions
 }
 
@@ -124,7 +124,7 @@ resource "google_organization_iam_binding" "cloudscanner_scaler_snapshot_deleter
 }
 
 resource "google_organization_iam_binding" "cloudscanner_sa_storage_object_reader_role_binding" {
-  count  = var.enable_cloudscanners  && var.enable_dspm_scanning ? 1 : 0
+  count  = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.storage_object_reader[0].name
   members = [

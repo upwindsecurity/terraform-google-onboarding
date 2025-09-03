@@ -1,7 +1,7 @@
 variable "storage_read_permissions" {
   description = "List of IAM permissions for storage read access."
   type        = list(string)
-  default     = [
+  default = [
     "storage.buckets.get",
     "storage.buckets.getIamPolicy",
     "storage.buckets.getIpFilter",
@@ -23,7 +23,7 @@ variable "storage_read_permissions" {
 variable "iam_read_role_permissions" {
   description = "List of IAM permissions for read-only access across GCP services."
   type        = list(string)
-  default     = [
+  default = [
     # Service account and key read permissions
     "iam.serviceAccounts.get",
     "iam.serviceAccounts.list",
@@ -39,7 +39,7 @@ variable "iam_read_role_permissions" {
 variable "snapshot_reader_permissions" {
   description = "List of IAM permissions for reading snapshots."
   type        = list(string)
-  default     = [
+  default = [
     # Read-only permissions for discovery
     "compute.disks.get",
     "compute.disks.list",
@@ -62,7 +62,7 @@ variable "snapshot_reader_permissions" {
 variable "snapshot_creator_permissions" {
   description = "List of IAM permissions for creating and deleting snapshots."
   type        = list(string)
-  default     = [
+  default = [
     "compute.snapshots.create",
     "compute.snapshots.setLabels",
     "compute.snapshots.useReadOnly"
@@ -72,7 +72,7 @@ variable "snapshot_creator_permissions" {
 variable "snapshot_deleter_permissions" {
   description = "List of IAM permissions for deleting snapshots."
   type        = list(string)
-  default     = [
+  default = [
     "compute.snapshots.delete",
   ]
 }
@@ -80,7 +80,7 @@ variable "snapshot_deleter_permissions" {
 variable "storage_object_reader_permissions" {
   description = "List of IAM permissions for storage object reader role."
   type        = list(string)
-  default     = [
+  default = [
     "storage.objects.get",
   ]
 }
@@ -88,7 +88,7 @@ variable "storage_object_reader_permissions" {
 variable "cloud_run_permissions" {
   description = "List of IAM permissions for Cloud Run roles."
   type        = list(string)
-  default     = [
+  default = [
     "artifactregistry.repositories.downloadArtifacts",
     "artifactregistry.dockerimages.get",
   ]
