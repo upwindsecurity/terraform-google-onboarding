@@ -42,7 +42,7 @@ resource "google_organization_iam_custom_role" "snapshot_deleter" {
 
 # Grants access to storage bucket objects for DSPM functionality
 resource "google_organization_iam_custom_role" "storage_object_reader" {
-  count       = var.enable_cloudscanners && var.enable_dspm ? 1 : 0
+  count       = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
   org_id      = data.google_organization.org.org_id
   role_id     = "CloudScannerStorageObjectReader_${local.resource_suffix_underscore}"
   title       = "Upwind Storage Object Reader"
@@ -124,7 +124,7 @@ resource "google_organization_iam_binding" "cloudscanner_scaler_snapshot_deleter
 }
 
 resource "google_organization_iam_binding" "cloudscanner_sa_storage_object_reader_role_binding" {
-  count  = var.enable_cloudscanners  && var.enable_dspm ? 1 : 0
+  count  = var.enable_cloudscanners  && var.enable_dspm_scanning ? 1 : 0
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.storage_object_reader[0].name
   members = [
