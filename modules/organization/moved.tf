@@ -54,6 +54,11 @@ moved {
   to   = module.iam.google_service_account_iam_member.cloudscheduler_can_impersonate_scaler
 }
 
+moved {
+  from = google_project_iam_member.compute_service_agent_minimal
+  to   = module.iam.google_project_iam_member.compute_service_agent_minimal
+}
+
 ### IAM Roles related
 
 moved {
