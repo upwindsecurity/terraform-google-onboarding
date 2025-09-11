@@ -241,3 +241,45 @@ moved {
   from = google_service_account_iam_member.cloudscanner_token_creator
   to   = module.iam.google_service_account_iam_member.cloudscanner_token_creator
 }
+
+# Secret Related
+
+moved {
+  from = google_secret_manager_secret.upwind_client_id
+  to   = module.iam.google_secret_manager_secret.upwind_client_id
+}
+
+moved {
+  from = google_secret_manager_secret.upwind_client_secret
+  to   = module.iam.google_secret_manager_secret.upwind_client_secret
+}
+
+moved {
+  from = google_secret_manager_secret.scanner_client_id
+  to   = module.iam.google_secret_manager_secret.scanner_client_id
+}
+
+moved {
+  from = google_secret_manager_secret.scanner_client_secret
+  to   = module.iam.google_secret_manager_secret.scanner_client_secret
+}
+
+moved {
+  from = google_secret_manager_secret_version.upwind_client_id_v1
+  to   = module.iam.google_secret_manager_secret_version.upwind_client_id_v1
+}
+
+moved {
+  from = google_secret_manager_secret_version.upwind_client_secret_v1
+  to   = module.iam.google_secret_manager_secret_version.upwind_client_secret_v1
+}
+
+moved {
+  from = google_secret_manager_secret_version.scanner_client_id_v1
+  to   = module.iam.google_secret_manager_secret_version.scanner_client_id_v1
+}
+
+moved {
+  from = google_secret_manager_secret_version.scanner_client_secret_v1
+  to   = module.iam.google_secret_manager_secret_version.scanner_client_secret_v1
+}
