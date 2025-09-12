@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.0.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.6...v3.0.0) (2025-09-12)
+
+### ⚠ BREAKING CHANGES
+
+* creates a shared module `_shared`, and moves API enablement there.
+  Further resources will be moved across in stages.
+
+* chore(AG-3628): remove APIs to rely on external script, move project based roles to shared
+
+* chore(AG-3628): move remaining resources to shared module - secrets and WIF
+
+* chore(AG-3628): add labels by default to applicable resources
+
+* chore(AG-3628): remove unused API variables, other var cleanup
+
+* feat(AG-3628): add folder deployment option
+
+* chore(AG-3628): update READMEs
+
+* chore(AG-3628): add dummy secret with user defined labels for later use
+
+* chore(AG-3628): add missing moved block for compute agent minimal permissions
+
+* chore(AG-3628): add moved blocks for secrets
+
+* feat!(AG-3628): support gcp onboarding at project multiproject and folder level ([#48](https://github.com/upwindsecurity/terraform-google-onboarding/issues/48)) ([0f966f5](https://github.com/upwindsecurity/terraform-google-onboarding/commit/0f966f5276715f5ae21311ab0125531d299cf36f))
+
 ## [2.7.4](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.3...v2.7.4) (2025-08-19)
 
 ### Bug Fixes
