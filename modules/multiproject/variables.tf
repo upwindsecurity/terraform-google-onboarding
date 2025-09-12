@@ -64,16 +64,6 @@ variable "is_dev" {
 
 # region google
 
-variable "gcp_organization_id" {
-  description = "The GCP organization ID."
-  type        = string
-
-  validation {
-    condition     = can(regex("^[0-9]{1,}", var.gcp_organization_id))
-    error_message = "The GCP organization ID must be numeric."
-  }
-}
-
 variable "upwind_orchestrator_project" {
   description = "The orchestrator project where Upwind resources are created."
   type        = string
@@ -81,6 +71,15 @@ variable "upwind_orchestrator_project" {
   validation {
     condition     = can(regex("^[a-z][a-z0-9-]{4,28}[a-z0-9]$", var.upwind_orchestrator_project))
     error_message = "The Upwind orchestrator project ID must be 6-30 characters, lowercase letters, numbers or hyphens, must start with a letter, and cannot end with a hyphen."
+  }
+}
+
+variable "target_project_ids" {
+  description = "List of project IDs to grant access to"
+  type        = list(string)
+  validation {
+    condition     = length(var.target_project_ids) > 0
+    error_message = "At least one target project ID must be specified."
   }
 }
 
@@ -101,10 +100,10 @@ variable "enable_cloudscanners" {
   default     = false
 }
 
-variable "enable_dspm_scanning" {
-  description = "Enable DSPM scanning by cloud scanners"
+variable "enable_dspm" {
+  description = "Enable DSPM functionality"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "google_service_account_display_name" {
