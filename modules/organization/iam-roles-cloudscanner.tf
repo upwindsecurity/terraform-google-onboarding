@@ -10,27 +10,18 @@ resource "google_organization_iam_custom_role" "upwind_management_sa_iam_read_ro
 }
 
 # Custom role for snapshot management
-resource "google_organization_iam_custom_role" "snapshot_reader" {
+resource "google_organization_iam_custom_role" "cloudscanner_snapshot_operations_role" {
   count       = var.enable_cloudscanners ? 1 : 0
   org_id      = data.google_organization.org.org_id
-  role_id     = "CloudScannerSnapshotReader_${local.resource_suffix_underscore}"
-  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-reader"
-  description = "Read-only access to all compute resources for discovery"
+  role_id     = "CloudScannerSnapshotOperations_${local.resource_suffix_underscore}"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-operations"
+  description = "Operations on snapshots for CloudScanner"
 
-  permissions = module.iam.snapshot_reader_permissions
+  permissions = concat(module.iam.snapshot_reader_permissions, module.iam.snapshot_creator_permissions)
 }
 
-resource "google_organization_iam_custom_role" "snapshot_creator" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  org_id      = data.google_organization.org.org_id
-  role_id     = "CloudScannerSnapshotCreator_${local.resource_suffix_underscore}"
-  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-creator"
-  description = "Snapshot Create operations in any project"
-
-  permissions = module.iam.snapshot_creator_permissions
-}
-
-resource "google_organization_iam_custom_role" "snapshot_deleter" {
+# Snapshot deleter role separate to limit delete permissions to named resources
+resource "google_organization_iam_custom_role" "cloudscanner_snapshot_deleter_role" {
   count       = var.enable_cloudscanners ? 1 : 0
   org_id      = data.google_organization.org.org_id
   role_id     = "CloudScannerSnapshotDeleter_${local.resource_suffix_underscore}"
@@ -81,37 +72,18 @@ resource "google_organization_iam_member" "upwind_cloudscanner_sa_compute_viewer
 resource "google_organization_iam_binding" "upwind_cloudscanner_snapshot_reader_role_binding" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
-  role   = google_organization_iam_custom_role.snapshot_reader[0].name
+  role   = google_organization_iam_custom_role.cloudscanner_snapshot_operations_role[0].name
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
   ]
-}
-
-# Required for CloudScanner to create snapshots in any project
-# Snapshot creation happens in the same project as the source disk
-# so we need to allow snapshot creation in all projects
-resource "google_organization_iam_binding" "cloudscanner_snapshot_creator_role_binding" {
-  count  = var.enable_cloudscanners ? 1 : 0
-  org_id = data.google_organization.org.org_id
-  role   = google_organization_iam_custom_role.snapshot_creator[0].name
-  members = [
-    "serviceAccount:${module.iam.cloudscanner_sa.email}",
-    "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
-  ]
-
-  condition {
-    # snapshot creation is tested against project. Allow snapshot creation in all projects
-    title      = "Upwind Cloud Scanner Snapshot Creator"
-    expression = ""
-  }
 }
 
 # Limit snapshot deletion permissions to Upwind-generated snapshots only
 resource "google_organization_iam_binding" "cloudscanner_scaler_snapshot_deleter_role_binding" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
-  role   = google_organization_iam_custom_role.snapshot_deleter[0].name
+  role   = google_organization_iam_custom_role.cloudscanner_snapshot_deleter_role[0].name
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
