@@ -9,7 +9,7 @@ resource "google_project_iam_custom_role" "upwind_management_sa_iam_read_role" {
 
   project     = each.value
   role_id     = "CloudScannerIamReadRole_${local.resource_suffix_underscore}"
-  title       = "upwind-mgmt-${local.resource_suffix_hyphen}-iam-read"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-iam-read"
   description = "Read permissions for IAM management"
   permissions = module.iam.iam_read_role_permissions
 }
@@ -20,7 +20,7 @@ resource "google_project_iam_custom_role" "snapshot_reader" {
 
   project     = each.value
   role_id     = "CloudScannerSnapshotReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Snapshot Reader"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-reader"
   description = "Read-only access to all compute resources for discovery"
 
   permissions = module.iam.snapshot_reader_permissions
@@ -32,7 +32,7 @@ resource "google_project_iam_custom_role" "snapshot_creator" {
 
   project     = each.value
   role_id     = "CloudScannerSnapshotCreator_${local.resource_suffix_underscore}"
-  title       = "Upwind Snapshot Creator"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-creator"
   description = "Snapshot Create operations in project"
 
   permissions = module.iam.snapshot_creator_permissions
@@ -44,7 +44,7 @@ resource "google_project_iam_custom_role" "snapshot_deleter" {
 
   project     = each.value
   role_id     = "CloudScannerSnapshotDeleter_${local.resource_suffix_underscore}"
-  title       = "Upwind Snapshot Deleter"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-deleter"
   description = "Delete operations restricted to Upwind-managed resources"
 
   permissions = module.iam.snapshot_deleter_permissions
@@ -56,7 +56,7 @@ resource "google_project_iam_custom_role" "storage_object_reader" {
 
   project     = each.value
   role_id     = "CloudScannerStorageObjectReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Storage Object Reader"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-storage-object-reader"
   description = "Read-only access to storage objects"
 
   permissions = module.iam.storage_object_reader_permissions

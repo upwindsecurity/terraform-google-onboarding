@@ -6,7 +6,7 @@
 resource "google_organization_iam_custom_role" "storage_reader_role" {
   org_id      = var.gcp_organization_id
   role_id     = "UpwindFolderStorageReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Management SA Storage Reader (Folder)"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-storage-reader"
   description = "Custom role for Upwind Management Service Account to read storage buckets across folders."
 
   permissions = module.iam.storage_read_permissions

@@ -5,7 +5,7 @@ resource "google_project_iam_custom_role" "upwind_management_sa_cloudscanner_dep
   count       = var.enable_cloudscanners ? 1 : 0
   project     = var.upwind_orchestrator_project
   role_id     = "CloudScannerDeploymentRole_${local.resource_suffix_underscore}"
-  title       = "upwind-mgmt-${local.resource_suffix_hyphen}-cs-deployment"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-cs-deployment"
   description = "Minimum permissions required to deploy the Cloudscanner resources"
   permissions = [
     # Compute Engine resource creation permissions
@@ -79,7 +79,7 @@ resource "google_project_iam_custom_role" "cloudscanner_basic_role" {
   count       = var.enable_cloudscanners ? 1 : 0
   project     = local.project
   role_id     = "CloudScannerBasicRole_${local.resource_suffix_underscore}"
-  title       = "upwind-cs-${local.resource_suffix_hyphen}-basic"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-basic"
   description = "Minimum permissions required for Cloudscanner operations"
 
   permissions = [
@@ -104,7 +104,7 @@ resource "google_project_iam_custom_role" "cloudscanner_scaler_role" {
   count       = var.enable_cloudscanners ? 1 : 0
   role_id     = "CloudScannerScalerRole_${local.resource_suffix_underscore}"
   project     = local.project
-  title       = "upwind-cs-${local.resource_suffix_hyphen}-scaler-base"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-scaler-base"
   description = "Minimum permissions required for Cloudscanner Scaler operations"
 
   permissions = [
@@ -126,7 +126,7 @@ resource "google_project_iam_custom_role" "cloudscanner_secret_access_role" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
   role_id = "CloudScannerSecretAccessRole_${local.resource_suffix_underscore}"
-  title   = "upwind-cs-${local.resource_suffix_hyphen}-secret-access"
+  title   = "upwind-role-${local.resource_suffix_hyphen}-secret-access"
 
   permissions = [
     "secretmanager.versions.list",
@@ -139,7 +139,7 @@ resource "google_project_iam_custom_role" "cloudscanner_instance_template_mgmt_r
   count   = var.enable_cloudscanners ? 1 : 0
   role_id = "CloudScannerInstTmplMgmtRole_${local.resource_suffix_underscore}"
   project = local.project
-  title   = "upwind-cs-${local.resource_suffix_hyphen}-instance-template-mgmt"
+  title   = "upwind-role-${local.resource_suffix_hyphen}-instance-template-mgmt"
 
   permissions = [
     "compute.instanceTemplates.get",
@@ -154,7 +154,7 @@ resource "google_project_iam_custom_role" "cloudscanner_instance_template_test_c
   count   = var.enable_cloudscanners ? 1 : 0
   role_id = "CloudScannerInstTmplTestCreationRole_${local.resource_suffix_underscore}"
   project = local.project
-  title   = "upwind-cs-${local.resource_suffix_hyphen}-instance-template-mgmt-test-creation"
+  title   = "upwind-role-${local.resource_suffix_hyphen}-instance-template-mgmt-test-creation"
 
   permissions = [
     "compute.instances.create",
@@ -168,7 +168,7 @@ resource "google_project_iam_custom_role" "disk_writer" {
   count       = var.enable_cloudscanners ? 1 : 0
   project     = local.project
   role_id     = "CloudScannerDiskWriter_${local.resource_suffix_underscore}"
-  title       = "Upwind Disk Writer"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-disk-writer"
   description = "Disk Write operations in orchestrator project"
 
   permissions = [
@@ -185,7 +185,7 @@ resource "google_project_iam_custom_role" "compute_service_agent_minimal" {
   count   = var.enable_cloudscanners ? 1 : 0
   project = local.project
   role_id = "ComputeServiceAgentMinimal_${local.resource_suffix_underscore}"
-  title   = "Minimal Compute Service Agent Permissions"
+  title   = "upwind-role-${local.resource_suffix_hyphen}-compute-service-agent-minimal"
 
   permissions = [
     "compute.disks.create",

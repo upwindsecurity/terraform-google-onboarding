@@ -9,7 +9,7 @@ resource "google_organization_iam_custom_role" "upwind_management_sa_iam_read_ro
 
   org_id      = var.gcp_organization_id
   role_id     = "CloudScannerFolderIamRead_${local.resource_suffix_underscore}"
-  title       = "upwind-mgmt-${local.resource_suffix_hyphen}-iam-read-folder"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-iam-read-folder"
   description = "Read permissions for IAM management across folders"
   permissions = module.iam.iam_read_role_permissions
 }
@@ -20,7 +20,7 @@ resource "google_organization_iam_custom_role" "snapshot_reader" {
 
   org_id      = var.gcp_organization_id
   role_id     = "CloudScannerFolderSnapshotReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Snapshot Reader (Folder)"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-iam-read-folder"
   description = "Read-only access to all compute resources for discovery across folders"
 
   permissions = module.iam.snapshot_reader_permissions
@@ -32,7 +32,7 @@ resource "google_organization_iam_custom_role" "snapshot_creator" {
 
   org_id      = var.gcp_organization_id
   role_id     = "CloudScannerFolderSnapshotCreator_${local.resource_suffix_underscore}"
-  title       = "Upwind Snapshot Creator (Folder)"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-creator"
   description = "Snapshot Create operations across folder projects"
 
   permissions = module.iam.snapshot_creator_permissions
@@ -44,7 +44,7 @@ resource "google_organization_iam_custom_role" "snapshot_deleter" {
 
   org_id      = var.gcp_organization_id
   role_id     = "CloudScannerFolderSnapshotDeleter_${local.resource_suffix_underscore}"
-  title       = "Upwind Snapshot Deleter (Folder)"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-snapshot-deleter"
   description = "Delete operations restricted to Upwind-managed resources across folders"
 
   permissions = module.iam.snapshot_deleter_permissions
@@ -56,7 +56,7 @@ resource "google_organization_iam_custom_role" "storage_object_reader" {
 
   org_id      = var.gcp_organization_id
   role_id     = "CloudScannerFolderStorageObjectReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Storage Object Reader (Folder)"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-storage-object-reader"
   description = "Read-only access to storage objects across folders"
 
   permissions = module.iam.storage_object_reader_permissions

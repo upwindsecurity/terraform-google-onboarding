@@ -9,7 +9,7 @@ resource "google_project_iam_custom_role" "storage_reader_role" {
 
   project     = each.value
   role_id     = "UpwindStorageReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Management SA Storage Reader"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-storage-reader"
   description = "Custom role for Upwind Management Service Account to read storage buckets."
 
   permissions = module.iam.storage_read_permissions
