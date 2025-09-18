@@ -82,6 +82,8 @@ variable "storage_object_reader_permissions" {
   type        = list(string)
   default = [
     "storage.objects.get",
+    "storage.buckets.get",
+    "storage.buckets.list",
   ]
 }
 

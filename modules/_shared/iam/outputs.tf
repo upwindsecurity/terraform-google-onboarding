@@ -124,9 +124,7 @@ output "snapshot_deleter_permissions" {
 
 output "storage_object_reader_permissions" {
   description = "List of IAM permissions for storage object reader role."
-  value = [
-    "storage.objects.get",
-  ]
+  value       = var.storage_object_reader_permissions
 }
 
 output "cloud_run_permissions" {
