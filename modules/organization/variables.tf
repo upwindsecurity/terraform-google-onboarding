@@ -104,7 +104,7 @@ variable "enable_cloudscanners" {
 variable "enable_dspm_scanning" {
   description = "Enable DSPM scanning by cloud scanners"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "google_service_account_display_name" {
