@@ -4,9 +4,10 @@
 ### Custom Roles created in each target project
 
 # Generic operations role for CloudScanner
-resource "google_organization_iam_custom_role" "upwind_cloudscanner_operations_role" {
-  count       = var.enable_cloudscanners ? 1 : 0
-  org_id      = data.google_organization.org.org_id
+resource "google_project_iam_custom_role" "upwind_cloudscanner_operations_role" {
+  for_each = var.enable_cloudscanners ? toset(var.target_project_ids) : toset([])
+
+  project     = each.value
   role_id     = "CloudScannerOperationsRole_${local.resource_suffix_underscore}"
   title       = "upwind-role-${local.resource_suffix_hyphen}-cloudscanner-operations"
   description = "Generic Operations role for CloudScanner"
@@ -48,7 +49,7 @@ resource "google_project_iam_binding" "upwind_cloudscanner_operations_role_bindi
   for_each = var.enable_cloudscanners ? toset(var.target_project_ids) : toset([])
 
   project = each.value
-  role    = google_project_iam_custom_role.cloudscanner_operations_role[each.key].id
+  role    = google_project_iam_custom_role.upwind_cloudscanner_operations_role[each.key].id
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
@@ -60,7 +61,7 @@ resource "google_project_iam_binding" "upwind_cloudscanner_snapshot_deleter_role
   for_each = var.enable_cloudscanners ? toset(var.target_project_ids) : toset([])
 
   project = each.value
-  role    = google_project_iam_custom_role.cloudscanner_snapshot_deleter_role[each.key].id
+  role    = google_project_iam_custom_role.upwind_cloudscanner_snapshot_deleter_role[each.key].id
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"

@@ -47,18 +47,3 @@ output "folder_projects_map" {
     ]
   }
 }
-
-output "organization_custom_roles" {
-  description = "Organization-level custom roles created for folder access"
-  value = {
-    storage_reader_role = google_organization_iam_custom_role.storage_reader_role.id
-    cloudscanner_roles = var.enable_cloudscanners ? {
-      iam_read_role              = google_organization_iam_custom_role.upwind_management_sa_iam_read_role[0].id
-      snapshot_reader_role       = google_organization_iam_custom_role.snapshot_reader[0].id
-      snapshot_creator_role      = google_organization_iam_custom_role.snapshot_creator[0].id
-      snapshot_deleter_role      = google_organization_iam_custom_role.snapshot_deleter[0].id
-      cloud_run_role             = google_organization_iam_custom_role.cloudscanner_cloud_run_role[0].id
-      storage_object_reader_role = var.enable_dspm ? google_organization_iam_custom_role.storage_object_reader[0].id : null
-    } : null
-  }
-}

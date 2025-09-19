@@ -116,12 +116,6 @@ variable "enable_dspm_scanning" {
   default     = false
 }
 
-variable "enable_dspm" {
-  description = "Enable DSPM functionality"
-  type        = bool
-  default     = false
-}
-
 variable "google_service_account_display_name" {
   description = "The display name for the service account."
   type        = string

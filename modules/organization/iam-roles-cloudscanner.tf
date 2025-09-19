@@ -38,7 +38,7 @@ resource "google_organization_iam_member" "upwind_cloudscanner_sa_compute_viewer
 resource "google_organization_iam_binding" "upwind_cloudscanner_operations_role_binding" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
-  role   = google_organization_iam_custom_role.cloudscanner_operations_role[0].name
+  role   = google_organization_iam_custom_role.upwind_cloudscanner_operations_role[0].name
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
@@ -49,7 +49,7 @@ resource "google_organization_iam_binding" "upwind_cloudscanner_operations_role_
 resource "google_organization_iam_binding" "upwind_cloudscanner_snapshot_deleter_role_binding" {
   count  = var.enable_cloudscanners ? 1 : 0
   org_id = data.google_organization.org.org_id
-  role   = google_organization_iam_custom_role.cloudscanner_snapshot_deleter_role[0].name
+  role   = google_organization_iam_custom_role.upwind_cloudscanner_snapshot_deleter_role[0].name
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"

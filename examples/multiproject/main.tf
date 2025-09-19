@@ -10,7 +10,6 @@ module "upwind_organization_onboarding" {
   upwind_client_secret   = var.upwind_client_secret
 
   # Required Google Cloud configuration
-  gcp_organization_id         = var.gcp_organization_id
   upwind_orchestrator_project = var.upwind_orchestrator_project
 
   # Optional configuration
