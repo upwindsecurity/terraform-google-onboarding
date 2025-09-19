@@ -53,7 +53,6 @@ variable "deployment_permissions" {
     "iam.serviceAccounts.actAs", # Required to assign a service account to instances
     "iam.serviceAccounts.getIamPolicy",
     "iam.serviceAccounts.setIamPolicy",
-    "iam.serviceAccounts.getAccessToken", # For service account token operations
     # Required for Terraform to check operation status
     "compute.regionOperations.get",
     # Required basic service usage
