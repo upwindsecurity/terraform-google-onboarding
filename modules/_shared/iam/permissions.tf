@@ -219,7 +219,6 @@ variable "snapshot_reader_permissions" {
     "compute.zoneOperations.get",
     "compute.globalOperations.get",
     "compute.regionOperations.get",
-    "iam.serviceAccounts.getAccessToken",
   ]
 }
 
