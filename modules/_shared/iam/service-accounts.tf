@@ -66,14 +66,6 @@ resource "google_service_account_iam_binding" "scaler_and_compute_can_use_clouds
   ]
 }
 
-# Allows the CloudScanner to impersonate the CloudScanner Scaler Service Account
-resource "google_service_account_iam_member" "cloudscanner_impersonate_scaler" {
-  count              = var.enable_cloudscanners ? 1 : 0
-  service_account_id = google_service_account.cloudscanner_scaler_sa[0].id
-  role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
-}
-
 # Allow management SA to create tokens for scanner SA
 resource "google_service_account_iam_member" "management_can_impersonate_scanner" {
   count              = var.enable_cloudscanners ? 1 : 0

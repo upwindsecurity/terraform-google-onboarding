@@ -1,15 +1,15 @@
 ### Folder-Level IAM for Multi-Project Access via Folder Inheritance
 
-### Custom Roles (created at folder level for inheritance)
-
-# Storage reader role (organization-wide, applied to folders)
-resource "google_organization_iam_custom_role" "storage_reader_role" {
+# Custom role for Storage reader and IAM management with minimal required permissions
+resource "google_organization_iam_custom_role" "upwind_management_sa_operations_role" {
   org_id      = var.gcp_organization_id
-  role_id     = "UpwindFolderStorageReader_${local.resource_suffix_underscore}"
-  title       = "Upwind Management SA Storage Reader (Folder)"
-  description = "Custom role for Upwind Management Service Account to read storage buckets across folders."
-
-  permissions = module.iam.storage_read_permissions
+  role_id     = "UpwindOperations_${local.resource_suffix_underscore}"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-operations"
+  description = "Generic operations role for Upwind"
+  permissions = concat(
+    module.iam.storage_read_permissions,
+    var.enable_cloudscanners ? module.iam.iam_read_role_permissions : [],
+  )
 }
 
 # Give the management service account the basic viewer role on each target folder
@@ -22,11 +22,11 @@ resource "google_folder_iam_member" "upwind_management_sa_folder_viewer_role_mem
 }
 
 # Grant custom storage reader role to management SA on each target folder
-resource "google_folder_iam_member" "upwind_management_sa_storage_reader_role_member" {
+resource "google_folder_iam_member" "upwind_management_sa_operations_role_member" {
   for_each = toset(var.target_folder_ids)
 
   folder = each.value
-  role   = google_organization_iam_custom_role.storage_reader_role.id
+  role   = google_organization_iam_custom_role.upwind_management_sa_operations_role.id
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
 }
 
@@ -37,13 +37,4 @@ resource "google_folder_iam_member" "upwind_management_sa_asset_viewer_role_memb
   folder = each.value
   role   = "roles/cloudasset.viewer"
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
-}
-
-# Required for DSPM functionality when cloudscanners are enabled
-resource "google_folder_iam_member" "cloudscanner_sa_storage_reader_role_member" {
-  for_each = var.enable_cloudscanners ? toset(var.target_folder_ids) : toset([])
-
-  folder = each.value
-  role   = google_organization_iam_custom_role.storage_reader_role.id
-  member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
 }

@@ -110,8 +110,8 @@ variable "enable_cloudscanners" {
   default     = false
 }
 
-variable "enable_dspm" {
-  description = "Enable DSPM functionality"
+variable "enable_dspm_scanning" {
+  description = "Enable DSPM scanning by cloud scanners"
   type        = bool
   default     = false
 }
