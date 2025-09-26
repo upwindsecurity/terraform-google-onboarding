@@ -62,7 +62,6 @@ output "google_service_account_iam_binding" {
   description = "The IAM bindings for service accounts."
   value = {
     scaler_and_compute_can_use_cloudscanner = var.enable_cloudscanners ? google_service_account_iam_binding.scaler_and_compute_can_use_cloudscanner[0] : null
-    cloudscanner_impersonate_scaler         = var.enable_cloudscanners ? google_service_account_iam_member.cloudscanner_impersonate_scaler[0] : null
     management_can_impersonate_scanner      = var.enable_cloudscanners ? google_service_account_iam_member.management_can_impersonate_scanner[0] : null
     management_can_impersonate_scaler       = var.enable_cloudscanners ? google_service_account_iam_member.management_can_impersonate_scaler[0] : null
     scanner_can_impersonate_scaler          = var.enable_cloudscanners ? google_service_account_iam_member.scanner_can_impersonate_scaler[0] : null
@@ -124,9 +123,7 @@ output "snapshot_deleter_permissions" {
 
 output "storage_object_reader_permissions" {
   description = "List of IAM permissions for storage object reader role."
-  value = [
-    "storage.objects.get",
-  ]
+  value       = var.storage_object_reader_permissions
 }
 
 output "cloud_run_permissions" {
