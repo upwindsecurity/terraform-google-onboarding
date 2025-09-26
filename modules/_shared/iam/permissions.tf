@@ -20,6 +20,7 @@ variable "deployment_permissions" {
     "compute.disks.create",
     "compute.disks.get",
     "compute.disks.delete",
+    "compute.zones.list",
     # Networking resource creation permissions
     "compute.networks.create",
     "compute.networks.get",
@@ -40,6 +41,7 @@ variable "deployment_permissions" {
     "run.jobs.create",
     "run.jobs.get",
     "run.jobs.delete",
+    "run.executions.list",
     # Cloud Scheduler creation permissions
     "cloudscheduler.jobs.create",
     "cloudscheduler.jobs.get",
@@ -78,6 +80,7 @@ variable "cloudscanner_basic_permissions" {
     "compute.zoneOperations.get",
     "compute.globalOperations.get",
     "iam.serviceAccounts.actAs",
+    "run.executions.list",
   ]
 }
 

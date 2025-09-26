@@ -3,7 +3,7 @@
 # Used by the management service account to deploy the cloudscanner resources
 resource "google_project_iam_custom_role" "upwind_management_sa_cloudscanner_deployment_role" {
   count       = var.enable_cloudscanners ? 1 : 0
-  project     = var.upwind_orchestrator_project
+  project     = local.project
   role_id     = "CloudScannerDeploymentRole_${local.resource_suffix_underscore}"
   title       = "upwind-role-${local.resource_suffix_hyphen}-cs-deployment"
   description = "Minimum permissions required to deploy the Cloudscanner resources"
