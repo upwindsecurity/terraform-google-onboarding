@@ -6,6 +6,7 @@ variable "deployment_permissions" {
     "compute.instanceTemplates.create",
     "compute.instanceTemplates.delete",
     "compute.instanceTemplates.get",
+    "compute.instanceTemplates.useReadOnly",
     "compute.instanceGroupManagers.create",
     "compute.instanceGroupManagers.delete",
     "compute.instanceGroupManagers.get",
@@ -41,6 +42,9 @@ variable "deployment_permissions" {
     "run.jobs.create",
     "run.jobs.get",
     "run.jobs.delete",
+    "run.operations.get",
+    "run.operations.list",
+    "run.executions.get",
     "run.executions.list",
     # Cloud Scheduler creation permissions
     "cloudscheduler.jobs.create",
@@ -108,6 +112,7 @@ variable "cloudscanner_secret_access_permissions" {
   default = [
     # Permissions for accessing secrets in Secret Manager
     "secretmanager.versions.access",
+    "secretmanager.versions.get",
     "secretmanager.versions.list",
     "secretmanager.secrets.get",
     "secretmanager.secrets.list",
