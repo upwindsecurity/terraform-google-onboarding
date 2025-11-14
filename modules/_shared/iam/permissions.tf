@@ -41,6 +41,7 @@ variable "deployment_permissions" {
     # Cloud Run creation permissions
     "run.jobs.create",
     "run.jobs.get",
+    "run.jobs.update",
     "run.jobs.delete",
     "run.operations.get",
     "run.operations.list",
