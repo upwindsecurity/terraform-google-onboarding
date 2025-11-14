@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.1](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.0...v3.1.1) (2025-11-14)
+
+### Bug Fixes
+
+* add missing permissions for certain cases ([#51](https://github.com/upwindsecurity/terraform-google-onboarding/issues/51)) ([41c4793](https://github.com/upwindsecurity/terraform-google-onboarding/commit/41c47931675eb5e1ae56554a2d4c05fee0dca3c0))
+
 ## [3.0.0](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v2.7.6...v3.0.0) (2025-09-12)
 
 ### ⚠ BREAKING CHANGES
