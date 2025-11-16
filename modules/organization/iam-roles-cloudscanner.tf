@@ -60,3 +60,24 @@ resource "google_organization_iam_binding" "upwind_cloudscanner_snapshot_deleter
     expression = "resource.name.extract('snapshots/{snapshot}').startsWith('snap-')"
   }
 }
+
+# Required for DSPM bucket scanning
+resource "google_organization_iam_custom_role" "cloudscanner_dspm_bucket_role" {
+  count       = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
+  org_id      = data.google_organization.org.org_id
+  role_id     = "CloudScannerDSPMBucketRole_${local.resource_suffix_underscore}"
+  title       = "upwind-role-${local.resource_suffix_hyphen}-dspm-bucket"
+  description = "Minimum permissions required for DSPM bucket scanning operations"
+  permissions = [
+    "storage.buckets.get",  # Check if bucket exists and get bucket attributes
+    "storage.objects.list", # List objects in bucket
+    "storage.objects.get",  # Get object attributes and read object content
+  ]
+}
+
+resource "google_organization_iam_member" "cloudscanner_dspm_bucket_role_member" {
+  count  = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
+  org_id = data.google_organization.org.org_id
+  role   = google_organization_iam_custom_role.cloudscanner_dspm_bucket_role[0].name
+  member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
+}
