@@ -17,7 +17,7 @@ users to seamlessly connect their projects for monitoring and security analysis.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 6.43.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.13.0 |
 | <a name="provider_http"></a> [http](#provider\_http) | 3.5.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
 
@@ -42,13 +42,13 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_google_service_account_display_name"></a> [google\_service\_account\_display\_name](#input\_google\_service\_account\_display\_name) | The display name for the service account. | `string` | `"Upwind Security Service Account"` | no |
 | <a name="input_google_service_account_id_prefix"></a> [google\_service\_account\_id\_prefix](#input\_google\_service\_account\_id\_prefix) | The prefix of the service account ID. Changing this forces a new service account to be created. | `string` | `"upwind"` | no |
-| <a name="input_google_service_account_roles"></a> [google\_service\_account\_roles](#input\_google\_service\_account\_roles) | The roles that should be attached to the service account. | `list(string)` | <pre>[<br/>  "roles/viewer",<br/>  "roles/cloudasset.viewer"<br/>]</pre> | no |
+| <a name="input_google_service_account_roles"></a> [google\_service\_account\_roles](#input\_google\_service\_account\_roles) | The roles that should be attached to the service account. | `list(string)` | <pre>[<br>  "roles/viewer",<br>  "roles/cloudasset.viewer"<br>]</pre> | no |
 | <a name="input_upwind_auth_endpoint"></a> [upwind\_auth\_endpoint](#input\_upwind\_auth\_endpoint) | The Authentication API endpoint. | `string` | `"https://auth.upwind.io"` | no |
 | <a name="input_upwind_client_id"></a> [upwind\_client\_id](#input\_upwind\_client\_id) | The client ID used for authentication with the Upwind Authorization Service. | `string` | n/a | yes |
 | <a name="input_upwind_client_secret"></a> [upwind\_client\_secret](#input\_upwind\_client\_secret) | The client secret for authentication with the Upwind Authorization Service. | `string` | n/a | yes |
 | <a name="input_upwind_integration_endpoint"></a> [upwind\_integration\_endpoint](#input\_upwind\_integration\_endpoint) | The Integration API endpoint. | `string` | `"https://integration.upwind.io"` | no |
 | <a name="input_upwind_organization_id"></a> [upwind\_organization\_id](#input\_upwind\_organization\_id) | The identifier of the Upwind organization to integrate with. | `string` | n/a | yes |
-| <a name="input_upwind_region"></a> [upwind\_region](#input\_upwind\_region) | Which Upwind region to communicate with. 'us', 'eu' or 'me' | `string` | `"us"` | no |
+| <a name="input_upwind_region"></a> [upwind\_region](#input\_upwind\_region) | Which Upwind region to communicate with. 'us', 'eu', 'me' or 'pdc01' | `string` | `"us"` | no |
 | <a name="input_upwind_skip_http"></a> [upwind\_skip\_http](#input\_upwind\_skip\_http) | Controls whether HTTP requests should be skipped. Affects all HTTP requests. | `bool` | `false` | no |
 
 ## Outputs
