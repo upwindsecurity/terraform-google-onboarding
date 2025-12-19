@@ -1,5 +1,15 @@
 # # Google Cloud Project Onboarding Module
 
+> ** DEPRECATED: This module is deprecated and will no longer receive updates.**
+>
+> **Please migrate to one of the newer modules:**
+> - **[organization](https://registry.terraform.io/modules/upwindsecurity/onboarding/google/latest/submodules/organization)** - For organization-level onboarding
+> - **[multiproject](https://registry.terraform.io/modules/upwindsecurity/onboarding/google/latest/submodules/multiproject)** - For multi-project onboarding
+>
+> These modules provide better functionality, improved security, and ongoing support.
+>
+> **Registry link:** https://registry.terraform.io/modules/upwindsecurity/onboarding/google
+
 This Terraform module handles the onboarding of individual Google Cloud projects to the Upwind platform, enabling
 users to seamlessly connect their projects for monitoring and security analysis.
 
