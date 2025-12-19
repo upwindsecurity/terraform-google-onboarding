@@ -14,4 +14,5 @@ module "iam" {
   google_service_account_display_name = var.google_service_account_display_name
   workload_identity_pool_project      = var.workload_identity_pool_project
   is_dev                              = var.is_dev
+  upwind_region                       = var.upwind_region
 }

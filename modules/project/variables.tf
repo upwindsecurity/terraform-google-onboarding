@@ -66,4 +66,10 @@ variable "google_service_account_roles" {
   default     = ["roles/viewer", "roles/cloudasset.viewer"]
 }
 
+variable "skip_deprecation_warning" {
+  description = "Set to true to skip the deprecation warning check. The 'project' module is deprecated - please migrate to 'organization' or 'multiproject' modules."
+  type        = bool
+  default     = false
+}
+
 # endregion google

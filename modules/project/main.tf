@@ -1,5 +1,40 @@
+# ️DEPRECATION WARNING
+# This module is deprecated and will no longer receive updates.
+# Please migrate to the 'organization' or 'multiproject' module:
+# https://registry.terraform.io/modules/upwindsecurity/onboarding/google
+
 locals {
   google_service_account_private_key = jsondecode(base64decode(google_service_account_key.sak.private_key))
+}
+
+# Check block for deprecation warning - shows during terraform plan and apply
+# Check blocks are available in Terraform 1.5.0+
+# This check intentionally fails to display the deprecation warning and prevent applies
+# Set skip_deprecation_warning = true to bypass this check
+check "deprecation_warning" {
+  assert {
+    condition     = var.skip_deprecation_warning
+    error_message = <<-EOT
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                             DEPRECATION WARNING                               ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  The 'project' module is DEPRECATED and will no longer receive updates.       ║
+║                                                                               ║
+║  Please migrate to one of the newer modules:                                  ║
+║  • organization: https://registry.terraform.io/modules/upwindsecurity/        ║
+║                  onboarding/google/latest/submodules/organization             ║
+║  • multiproject: https://registry.terraform.io/modules/upwindsecurity/        ║
+║                  onboarding/google/latest/submodules/multiproject             ║
+║                                                                               ║
+║  These modules provide better functionality, improved security, and           ║
+║  ongoing support.                                                             ║
+║                                                                               ║
+║  To proceed with this deprecated module, set skip_deprecation_warning = true  ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+    EOT
+  }
 }
 
 resource "random_id" "uid" {
