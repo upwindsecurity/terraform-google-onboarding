@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.4](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.3...v3.1.4) (2026-01-15)
+
+### Bug Fixes
+
+* **AG-4397:** remove unused local provider ([#59](https://github.com/upwindsecurity/terraform-google-onboarding/issues/59)) ([37ff000](https://github.com/upwindsecurity/terraform-google-onboarding/commit/37ff0001b295f39bbe6444d7ef9467f07713fdf3))
+
 ## [3.1.3](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.2...v3.1.3) (2025-12-19)
 
 ### Bug Fixes
