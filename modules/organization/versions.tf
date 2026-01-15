@@ -6,9 +6,5 @@ terraform {
       source  = "hashicorp/google"
       version = ">= 6.23.0, < 8.0.0"
     }
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.0"
-    }
   }
 }
