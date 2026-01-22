@@ -190,6 +190,7 @@ variable "storage_read_permissions" {
     "storage.managedFolders.list",
     "storage.objects.getIamPolicy",
     "storage.objects.list",
+    "storage.objects.get",
   ]
 }
 
