@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.5](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.4...v3.1.5) (2026-02-12)
+
+### Bug Fixes
+
+* **AG-4576:** use workload_identity_trusted_account for WIF authentication ([#64](https://github.com/upwindsecurity/terraform-google-onboarding/issues/64)) ([67964f4](https://github.com/upwindsecurity/terraform-google-onboarding/commit/67964f4141aeadd5d808769ef64a1c724653de8f))
+
 ## [3.1.4](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.3...v3.1.4) (2026-01-15)
 
 ### Bug Fixes
