@@ -17,12 +17,12 @@ variable "upwind_client_secret" {
 
 variable "upwind_region" {
   type        = string
-  description = "Which Upwind region to communicate with. 'us', 'eu', 'me' or 'pdc01'"
+  description = "Which Upwind region to communicate with. 'us', 'eu', or 'me'"
   default     = "us"
 
   validation {
-    condition     = var.upwind_region == "us" || var.upwind_region == "eu" || var.upwind_region == "me" || var.upwind_region == "pdc01"
-    error_message = "upwind_region must be either 'us', 'eu', 'me' or 'pdc01'."
+    condition     = var.upwind_region == "us" || var.upwind_region == "eu" || var.upwind_region == "me"
+    error_message = "upwind_region must be either 'us', 'eu', or 'me'."
   }
 }
 

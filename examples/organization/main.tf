@@ -10,6 +10,7 @@ module "upwind_organization_onboarding" {
   # Required Google Cloud configuration
   gcp_organization_id         = "123456789012"
   upwind_orchestrator_project = "my-upwind-orchestrator"
+  workload_identity_trusted_account = "111111111111"
 
   # Optional configuration
   enable_cloudscanners                = true
