@@ -1,5 +1,5 @@
 locals {
-  upwind_aws_account = var.is_dev ? "437279811180" : var.upwind_region == "pdc01" ? "980805787000" : "627244208106"
+  upwind_aws_account = var.is_dev ? "437279811180" : var.upwind_region == "pdc01" ? "111111111111" : "627244208106"
   timestamp          = formatdate("YYYYMMDD-hhmm", timestamp())
 }
 
