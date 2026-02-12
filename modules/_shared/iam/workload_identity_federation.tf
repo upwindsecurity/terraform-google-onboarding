@@ -1,6 +1,5 @@
 locals {
-  upwind_aws_account = var.is_dev ? "437279811180" : var.upwind_region == "pdc01" ? "111111111111" : "627244208106"
-  timestamp          = formatdate("YYYYMMDD-hhmm", timestamp())
+  timestamp = formatdate("YYYYMMDD-hhmm", timestamp())
 }
 
 # This pool needs a timestamp, as GCP uses soft-deletion for WIF pools
@@ -34,10 +33,10 @@ resource "google_iam_workload_identity_pool_provider" "aws" {
     "attribute.aws_account" = "assertion.account"
   }
 
-  attribute_condition = "assertion.account == '${local.upwind_aws_account}'"
+  attribute_condition = "assertion.account == '${var.workload_identity_trusted_account}'"
 
   aws {
-    account_id = local.upwind_aws_account
+    account_id = var.workload_identity_trusted_account
   }
 }
 
@@ -45,7 +44,7 @@ resource "google_iam_workload_identity_pool_provider" "aws" {
 resource "google_service_account_iam_member" "management_workload_identity" {
   service_account_id = google_service_account.upwind_management_sa.id
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.upwind_management_sa]
 }
 
@@ -53,7 +52,7 @@ resource "google_service_account_iam_member" "management_workload_identity" {
 resource "google_service_account_iam_member" "management_token_creator" {
   service_account_id = google_service_account.upwind_management_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.upwind_management_sa]
 }
 
@@ -62,7 +61,7 @@ resource "google_service_account_iam_member" "cloudscanner_workload_identity" {
   count              = var.enable_cloudscanners ? 1 : 0
   service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.cloudscanner_sa[0]]
 }
 
@@ -71,6 +70,6 @@ resource "google_service_account_iam_member" "cloudscanner_token_creator" {
   count              = var.enable_cloudscanners ? 1 : 0
   service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${local.upwind_aws_account}"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.cloudscanner_sa[0]]
 }

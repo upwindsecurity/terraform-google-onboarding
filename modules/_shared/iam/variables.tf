@@ -104,14 +104,13 @@ variable "is_dev" {
   default     = false
 }
 
-variable "upwind_region" {
+variable "workload_identity_trusted_account" {
   type        = string
-  description = "Which Upwind region to communicate with. 'us', 'eu', 'me', or 'pdc01'"
-  default     = "us"
+  description = "The account ID of the trusted account for Workload Identity Federation."
 
   validation {
-    condition     = var.upwind_region == "us" || var.upwind_region == "eu" || var.upwind_region == "me" || var.upwind_region == "pdc01"
-    error_message = "upwind_region must be either 'us', 'eu', 'me', or 'pdc01'."
+    condition     = can(regex("^[0-9]{12}$", var.workload_identity_trusted_account))
+    error_message = "The workload identity trusted account must be a 12-digit number."
   }
 }
 
