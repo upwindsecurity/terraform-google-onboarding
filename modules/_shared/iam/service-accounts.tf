@@ -19,6 +19,27 @@ resource "google_service_account" "upwind_management_sa" {
   }
 }
 
+# Tag the service account to indicate DSPM scanning is enabled
+resource "google_tags_tag_key" "dspm_enabled_key" {
+  count       = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
+  parent      = "projects/${data.google_project.current.number}"
+  short_name  = "upwind-dspm-enabled"
+  description = "Indicates if DSPM scanning is enabled for Upwind"
+}
+
+resource "google_tags_tag_value" "dspm_enabled" {
+  count       = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
+  parent      = "tagKeys/${google_tags_tag_key.dspm_enabled_key[0].name}"
+  short_name  = "true"
+  description = "DSPM scanning is enabled"
+}
+
+resource "google_tags_tag_binding" "dspm_enabled_tag" {
+  count     = var.enable_cloudscanners && var.enable_dspm_scanning ? 1 : 0
+  parent    = "//iam.googleapis.com/projects/${data.google_project.current.number}/serviceAccounts/${google_service_account.upwind_management_sa.email}"
+  tag_value = google_tags_tag_value.dspm_enabled[0].name
+}
+
 ### CloudScanner Service Accounts
 
 # The main service account for the CloudScanner to use across all projects

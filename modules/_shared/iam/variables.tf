@@ -98,6 +98,12 @@ variable "enable_cloudscanners" {
   default     = true
 }
 
+variable "enable_dspm_scanning" {
+  description = "Enable DSPM scanning by cloud scanners"
+  type        = bool
+  default     = false
+}
+
 variable "is_dev" {
   description = "Flag to indicate if the environment is a development environment."
   type        = bool
