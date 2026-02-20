@@ -9,6 +9,7 @@ module "iam" {
   scanner_client_secret       = var.scanner_client_secret
   resource_suffix             = var.resource_suffix
   enable_cloudscanners        = var.enable_cloudscanners
+  enable_dspm_scanning        = var.enable_dspm_scanning
   labels                      = var.labels
 
   google_service_account_display_name = var.google_service_account_display_name
