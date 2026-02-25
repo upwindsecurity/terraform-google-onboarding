@@ -104,6 +104,7 @@ variable "cloudscanner_scaler_permissions" {
     "compute.globalOperations.get",         # The internal implementation queries the global operations when removing snapshots.
     "compute.subnetworks.get",
     "compute.subnetworks.use",
+    "compute.instances.delete",
   ]
 }
 
