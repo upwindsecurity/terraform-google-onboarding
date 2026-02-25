@@ -1,14 +1,15 @@
 # # Google Cloud Project Onboarding Module
 
-> ** DEPRECATED: This module is deprecated and will no longer receive updates.**
+> **DEPRECATED: This module is deprecated and will no longer receive updates.**
 >
 > **Please migrate to one of the newer modules:**
+>
 > - **[organization](https://registry.terraform.io/modules/upwindsecurity/onboarding/google/latest/submodules/organization)** - For organization-level onboarding
 > - **[multiproject](https://registry.terraform.io/modules/upwindsecurity/onboarding/google/latest/submodules/multiproject)** - For multi-project onboarding
 >
 > These modules provide better functionality, improved security, and ongoing support.
 >
-> **Registry link:** https://registry.terraform.io/modules/upwindsecurity/onboarding/google
+> **Registry link:** <https://registry.terraform.io/modules/upwindsecurity/onboarding/google>
 
 This Terraform module handles the onboarding of individual Google Cloud projects to the Upwind platform, enabling
 users to seamlessly connect their projects for monitoring and security analysis.
@@ -27,9 +28,9 @@ users to seamlessly connect their projects for monitoring and security analysis.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 7.13.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 7.21.0 |
 | <a name="provider_http"></a> [http](#provider\_http) | 3.5.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.8.1 |
 
 ## Modules
 
@@ -52,7 +53,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_google_service_account_display_name"></a> [google\_service\_account\_display\_name](#input\_google\_service\_account\_display\_name) | The display name for the service account. | `string` | `"Upwind Security Service Account"` | no |
 | <a name="input_google_service_account_id_prefix"></a> [google\_service\_account\_id\_prefix](#input\_google\_service\_account\_id\_prefix) | The prefix of the service account ID. Changing this forces a new service account to be created. | `string` | `"upwind"` | no |
-| <a name="input_google_service_account_roles"></a> [google\_service\_account\_roles](#input\_google\_service\_account\_roles) | The roles that should be attached to the service account. | `list(string)` | <pre>[<br>  "roles/viewer",<br>  "roles/cloudasset.viewer"<br>]</pre> | no |
+| <a name="input_google_service_account_roles"></a> [google\_service\_account\_roles](#input\_google\_service\_account\_roles) | The roles that should be attached to the service account. | `list(string)` | <pre>[<br/>  "roles/viewer",<br/>  "roles/cloudasset.viewer"<br/>]</pre> | no |
+| <a name="input_skip_deprecation_warning"></a> [skip\_deprecation\_warning](#input\_skip\_deprecation\_warning) | Set to true to skip the deprecation warning check. The 'project' module is deprecated - please migrate to 'organization' or 'multiproject' modules. | `bool` | `false` | no |
 | <a name="input_upwind_auth_endpoint"></a> [upwind\_auth\_endpoint](#input\_upwind\_auth\_endpoint) | The Authentication API endpoint. | `string` | `"https://auth.upwind.io"` | no |
 | <a name="input_upwind_client_id"></a> [upwind\_client\_id](#input\_upwind\_client\_id) | The client ID used for authentication with the Upwind Authorization Service. | `string` | n/a | yes |
 | <a name="input_upwind_client_secret"></a> [upwind\_client\_secret](#input\_upwind\_client\_secret) | The client secret for authentication with the Upwind Authorization Service. | `string` | n/a | yes |

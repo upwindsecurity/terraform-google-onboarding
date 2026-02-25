@@ -27,7 +27,3 @@ locals {
 data "google_project" "current" {
   project_id = local.project
 }
-
-provider "google" {
-  default_labels = local.validated_labels
-}
