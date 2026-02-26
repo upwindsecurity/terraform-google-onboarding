@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.6](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.5...v3.1.6) (2026-02-25)
+
+### Bug Fixes
+
+* **AG-4659:** Scaler lambda requires compute.instances.delete when it falls back to directly removing vm insances in the clean up job ([#69](https://github.com/upwindsecurity/terraform-google-onboarding/issues/69)) ([4cf0950](https://github.com/upwindsecurity/terraform-google-onboarding/commit/4cf095091c6434652fb06e9b899ad2db0e888261))
+
 ## [3.1.5](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.4...v3.1.5) (2026-02-12)
 
 ### Bug Fixes
