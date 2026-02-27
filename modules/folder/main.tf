@@ -21,10 +21,6 @@ locals {
   ])
 }
 
-provider "google" {
-  project = local.project
-}
-
 data "google_project" "current" {
   project_id = local.project
 }
