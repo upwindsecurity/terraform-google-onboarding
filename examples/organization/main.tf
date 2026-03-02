@@ -1,3 +1,8 @@
+# Google Cloud provider configuration
+provider "google" {
+  project = "my-upwind-orchestrator" # Must match upwind_orchestrator_project
+}
+
 # Organization-only example: Onboard entire organization to Upwind
 module "upwind_organization_onboarding" {
   source = "../../modules/organization"
@@ -8,8 +13,8 @@ module "upwind_organization_onboarding" {
   upwind_client_secret   = "your-client-secret-here"
 
   # Required Google Cloud configuration
-  gcp_organization_id         = "123456789012"
-  upwind_orchestrator_project = "my-upwind-orchestrator"
+  gcp_organization_id               = "123456789012"
+  upwind_orchestrator_project       = "my-upwind-orchestrator"
   workload_identity_trusted_account = "111111111111"
 
   # Optional configuration

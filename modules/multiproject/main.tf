@@ -15,10 +15,6 @@ locals {
   resource_suffix_underscore = format("%s%s", local.org_id_truncated, var.resource_suffix == "" ? "" : "_${var.resource_suffix}")
 }
 
-provider "google" {
-  project = local.project
-}
-
 data "google_project" "current" {
   project_id = local.project
 }
