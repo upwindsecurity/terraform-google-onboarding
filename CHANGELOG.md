@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.7](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.6...v3.1.7) (2026-03-02)
+
+### Bug Fixes
+
+* **AG-4672:** inherit root module provider in gcp onboarding terraform ([#71](https://github.com/upwindsecurity/terraform-google-onboarding/issues/71)) ([6cc8125](https://github.com/upwindsecurity/terraform-google-onboarding/commit/6cc81250006308768642d2859c4cd8a12de6613b)), closes [#68](https://github.com/upwindsecurity/terraform-google-onboarding/issues/68)
+
 ## [3.1.6](https://github.com/upwindsecurity/terraform-google-onboarding/compare/v3.1.5...v3.1.6) (2026-02-25)
 
 ### Bug Fixes
