@@ -38,6 +38,10 @@ resource "google_folder_iam_member" "upwind_cloudscanner_sa_compute_viewer_role_
   folder = each.value
   role   = "roles/compute.viewer"
   member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
+
+  depends_on = [
+    module.iam.cloudscanner_sa
+  ]
 }
 
 # Grant snapshot reader role to CloudScanner and Scaler SAs on each target folder
@@ -49,6 +53,12 @@ resource "google_folder_iam_binding" "upwind_cloudscanner_operations_role_bindin
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
+  ]
+
+  depends_on = [
+    module.iam.cloudscanner_sa,
+    module.iam.cloudscanner_scaler_sa,
+    module.iam.upwind_cloudscanner_operations_role
   ]
 }
 
@@ -67,4 +77,10 @@ resource "google_folder_iam_binding" "upwind_cloudscanner_snapshot_deleter_role_
     title      = "Upwind Cloud Scanner Snapshot Deleter"
     expression = "resource.name.extract('snapshots/{snapshot}').startsWith('snap-')"
   }
+
+  depends_on = [
+    module.iam.cloudscanner_sa,
+    module.iam.cloudscanner_scaler_sa,
+    module.iam.upwind_cloudscanner_snapshot_deleter_role
+  ]
 }

@@ -42,6 +42,10 @@ resource "google_project_iam_member" "upwind_cloudscanner_sa_compute_viewer_role
   project = each.value
   role    = "roles/compute.viewer"
   member  = "serviceAccount:${module.iam.cloudscanner_sa.email}"
+
+  depends_on = [
+    module.iam.cloudscanner_sa
+  ]
 }
 
 # Required to get disks and snapshots of target instances across projects
@@ -53,6 +57,12 @@ resource "google_project_iam_binding" "upwind_cloudscanner_operations_role_bindi
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
+  ]
+
+  depends_on = [
+    module.iam.cloudscanner_sa,
+    module.iam.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.upwind_cloudscanner_operations_role
   ]
 }
 
@@ -71,4 +81,10 @@ resource "google_project_iam_binding" "upwind_cloudscanner_snapshot_deleter_role
     title      = "Upwind Cloud Scanner Snapshot Deleter"
     expression = "resource.name.extract('snapshots/{snapshot}').startsWith('snap-')"
   }
+
+  depends_on = [
+    module.iam.cloudscanner_sa,
+    module.iam.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.upwind_cloudscanner_snapshot_deleter_role
+  ]
 }

@@ -20,12 +20,20 @@ resource "google_organization_iam_member" "upwind_management_sa_org_viewer_role_
   org_id = data.google_organization.org.org_id
   role   = "roles/viewer"
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa
+  ]
 }
 
 resource "google_organization_iam_member" "upwind_management_sa_folder_viewer_role_member" {
   org_id = data.google_organization.org.org_id
   role   = "roles/resourcemanager.folderViewer"
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa
+  ]
 }
 
 # Assign the operations role to the management service account (unconditional)
@@ -33,6 +41,11 @@ resource "google_organization_iam_member" "upwind_management_sa_operations_role_
   org_id = data.google_organization.org.org_id
   role   = google_organization_iam_custom_role.upwind_management_sa_operations_role.id
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa,
+    module.iam.upwind_management_sa_operations_role
+  ]
 }
 
 # Grant Cloud Asset Inventory permissions for customer-asset-collector across all projects
@@ -40,4 +53,8 @@ resource "google_organization_iam_member" "upwind_management_sa_asset_viewer_rol
   org_id = data.google_organization.org.org_id
   role   = "roles/cloudasset.viewer"
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa
+  ]
 }
