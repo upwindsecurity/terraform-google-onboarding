@@ -26,6 +26,10 @@ resource "google_project_iam_member" "upwind_management_sa_project_viewer_role_m
   project = each.value
   role    = "roles/viewer"
   member  = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa
+  ]
 }
 
 # Grant custom operations role to management SA on each target project
@@ -35,6 +39,11 @@ resource "google_project_iam_member" "upwind_management_sa_operations_role_membe
   project = each.value
   role    = google_project_iam_custom_role.upwind_management_sa_operations_role[each.key].id
   member  = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa,
+    google_project_iam_custom_role.upwind_management_sa_operations_role
+  ]
 }
 
 # Grant Cloud Asset Inventory permissions on each target project
@@ -44,4 +53,8 @@ resource "google_project_iam_member" "upwind_management_sa_asset_viewer_role_mem
   project = each.value
   role    = "roles/cloudasset.viewer"
   member  = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa
+  ]
 }

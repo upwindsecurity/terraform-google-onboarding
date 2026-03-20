@@ -32,6 +32,10 @@ resource "google_organization_iam_member" "upwind_cloudscanner_sa_compute_viewer
   org_id = data.google_organization.org.org_id
   role   = "roles/compute.viewer"
   member = "serviceAccount:${module.iam.cloudscanner_sa.email}"
+
+  depends_on = [
+    module.iam.cloudscanner_sa
+  ]
 }
 
 # Required to get disks and snapshots of target instances across projects
@@ -42,6 +46,12 @@ resource "google_organization_iam_binding" "upwind_cloudscanner_operations_role_
   members = [
     "serviceAccount:${module.iam.cloudscanner_sa.email}",
     "serviceAccount:${module.iam.cloudscanner_scaler_sa.email}"
+  ]
+
+  depends_on = [
+    module.iam.cloudscanner_sa,
+    module.iam.cloudscanner_scaler_sa,
+    module.iam.upwind_cloudscanner_operations_role
   ]
 }
 
@@ -59,4 +69,10 @@ resource "google_organization_iam_binding" "upwind_cloudscanner_snapshot_deleter
     title      = "Upwind Cloud Scanner Snapshot Deleter"
     expression = "resource.name.extract('snapshots/{snapshot}').startsWith('snap-')"
   }
+
+  depends_on = [
+    module.iam.cloudscanner_sa,
+    module.iam.cloudscanner_scaler_sa,
+    module.iam.upwind_cloudscanner_snapshot_deleter_role
+  ]
 }

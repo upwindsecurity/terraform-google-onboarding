@@ -19,6 +19,10 @@ resource "google_folder_iam_member" "upwind_management_sa_folder_viewer_role_mem
   folder = each.value
   role   = "roles/viewer"
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa
+  ]
 }
 
 # Grant custom storage reader role to management SA on each target folder
@@ -28,6 +32,11 @@ resource "google_folder_iam_member" "upwind_management_sa_operations_role_member
   folder = each.value
   role   = google_organization_iam_custom_role.upwind_management_sa_operations_role.id
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa,
+    module.iam.upwind_management_sa_operations_role
+  ]
 }
 
 # Grant Cloud Asset Inventory permissions on each target folder
@@ -37,4 +46,9 @@ resource "google_folder_iam_member" "upwind_management_sa_asset_viewer_role_memb
   folder = each.value
   role   = "roles/cloudasset.viewer"
   member = "serviceAccount:${module.iam.upwind_management_sa.email}"
+
+  depends_on = [
+    module.iam.upwind_management_sa,
+    module.iam.upwind_management_sa_asset_viewer_role_member
+  ]
 }

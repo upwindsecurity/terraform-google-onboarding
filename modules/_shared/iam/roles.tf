@@ -91,6 +91,11 @@ resource "google_project_iam_member" "upwind_management_sa_cloudscanner_deployme
   project = local.project
   role    = google_project_iam_custom_role.upwind_management_sa_cloudscanner_deployment_role[0].name
   member  = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+
+  depends_on = [
+    google_service_account.upwind_management_sa,
+    google_project_iam_custom_role.upwind_management_sa_cloudscanner_deployment_role
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_sa_basic_role_member" {
@@ -98,6 +103,11 @@ resource "google_project_iam_member" "cloudscanner_sa_basic_role_member" {
   project = local.project
   role    = google_project_iam_custom_role.cloudscanner_basic_role[0].name
   member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}"
+
+  depends_on = [
+    google_service_account.cloudscanner_sa,
+    google_project_iam_custom_role.cloudscanner_basic_role
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_sa_scaler_role_member" {
@@ -105,6 +115,11 @@ resource "google_project_iam_member" "cloudscanner_sa_scaler_role_member" {
   project = local.project
   role    = google_project_iam_custom_role.cloudscanner_scaler_role[0].name
   member  = "serviceAccount:${google_service_account.cloudscanner_sa[0].email}" # CloudScanner VMs
+
+  depends_on = [
+    google_service_account.cloudscanner_sa,
+    google_project_iam_custom_role.cloudscanner_scaler_role
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_scaler_sa_scaler_role_member" {
@@ -112,6 +127,11 @@ resource "google_project_iam_member" "cloudscanner_scaler_sa_scaler_role_member"
   project = local.project
   role    = google_project_iam_custom_role.cloudscanner_scaler_role[0].name
   member  = "serviceAccount:${google_service_account.cloudscanner_scaler_sa[0].email}" # CloudScanner Scaler (Cloud Run)"
+
+  depends_on = [
+    google_service_account.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.cloudscanner_scaler_role
+  ]
 }
 
 # Only grant access to the Upwind Client ID and Secret
@@ -126,6 +146,11 @@ resource "google_project_iam_member" "upwind_management_sa_secret_access_role_me
     title      = "Upwind CloudScanner Credentials Access"
     expression = "resource.name.startsWith('${google_secret_manager_secret.scanner_client_id[0].name}') || resource.name.startsWith('${google_secret_manager_secret.scanner_client_secret[0].name}')"
   }
+
+  depends_on = [
+    google_service_account.upwind_management_sa,
+    google_project_iam_custom_role.cloudscanner_secret_access_role
+  ]
 }
 
 # Only grant access to the Upwind Scanner Client ID and Secret
@@ -140,6 +165,11 @@ resource "google_project_iam_member" "cloudscanner_secret_access_role_member" {
     title      = "Upwind CloudScanner Credentials Access"
     expression = "resource.name.startsWith('${google_secret_manager_secret.scanner_client_id[0].name}') || resource.name.startsWith('${google_secret_manager_secret.scanner_client_secret[0].name}')"
   }
+
+  depends_on = [
+    google_service_account.cloudscanner_sa,
+    google_project_iam_custom_role.cloudscanner_secret_access_role
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_scaler_secret_access_scaler_role_member" {
@@ -153,6 +183,11 @@ resource "google_project_iam_member" "cloudscanner_scaler_secret_access_scaler_r
     title      = "Upwind CloudScanner Credentials Access"
     expression = "resource.name.startsWith('${google_secret_manager_secret.scanner_client_id[0].name}') || resource.name.startsWith('${google_secret_manager_secret.scanner_client_secret[0].name}')"
   }
+
+  depends_on = [
+    google_service_account.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.cloudscanner_secret_access_role
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_scaler_sa_run_invoker" {
@@ -172,6 +207,10 @@ resource "google_project_iam_member" "cloudscanner_scaler_sa_run_invoker" {
     # Service Account to invoke a Cloud Run Job
     expression = ""
   }
+
+  depends_on = [
+    google_service_account.cloudscanner_scaler_sa
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_instance_template_mgmt_member" {
@@ -185,6 +224,11 @@ resource "google_project_iam_member" "cloudscanner_instance_template_mgmt_member
     title      = "Upwind Cloud Scanner Instance Template Management"
     expression = "resource.name.extract('instanceTemplates/{template}').startsWith('upwind-tpl-')"
   }
+
+  depends_on = [
+    google_service_account.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.cloudscanner_instance_template_mgmt_role
+  ]
 }
 
 resource "google_project_iam_member" "cloudscanner_instance_template_test_creation_member" {
@@ -198,6 +242,11 @@ resource "google_project_iam_member" "cloudscanner_instance_template_test_creati
     title      = "Upwind Cloud Scanner Instance Template Upgrade"
     expression = "resource.name.endsWith('-0000')"
   }
+
+  depends_on = [
+    google_service_account.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.cloudscanner_instance_template_test_creation_role
+  ]
 }
 
 
@@ -216,6 +265,12 @@ resource "google_project_iam_binding" "cloudscanner_disk_writer_role_binding" {
     title      = "Upwind Cloud Scanner Disk Writer"
     expression = "resource.name.extract('disks/{disk}').startsWith('vol-snap-')"
   }
+
+  depends_on = [
+    google_service_account.cloudscanner_sa,
+    google_service_account.cloudscanner_scaler_sa,
+    google_project_iam_custom_role.disk_writer
+  ]
 }
 
 # Allows the Google Cloud Run service agent to manage Cloud Run jobs
@@ -238,5 +293,10 @@ resource "google_secret_manager_secret_iam_member" "terraform_labels_viewer" {
   secret_id = google_secret_manager_secret.terraform_labels.secret_id
   role      = "roles/secretmanager.viewer"
   member    = "serviceAccount:${google_service_account.upwind_management_sa.email}"
+
+  depends_on = [
+    google_service_account.upwind_management_sa,
+    google_secret_manager_secret.terraform_labels
+  ]
 }
 
