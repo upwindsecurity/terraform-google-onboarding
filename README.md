@@ -1,5 +1,15 @@
 # Terraform Modules for Google Cloud Onboarding
 
+> [!WARNING]
+> ## ⚠️ This module is deprecated
+>
+> **`upwindsecurity/onboarding/google` is no longer maintained.** It has been replaced by
+> [`terraform-gcp-onboarding`](https://github.com/upwindsecurity/terraform-gcp-onboarding) —
+> Terraform Registry: [`upwindsecurity/onboarding/gcp`](https://registry.terraform.io/modules/upwindsecurity/onboarding/gcp).
+>
+> Please migrate to the new module. No further updates, bug fixes, or security patches will be
+> released here.
+
 [![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![Google Cloud](https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 [![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/features/actions)
