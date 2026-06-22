@@ -32,3 +32,8 @@ output "workload_identity_provider_name" {
   description = "Full path name of the workload identity pool provider"
   value       = "projects/${data.google_project.current.number}/locations/global/workloadIdentityPools/${module.iam.google_iam_workload_identity_pool.workload_identity_pool_id}/providers/${module.iam.google_iam_workload_identity_pool_provider.workload_identity_pool_provider_id}"
 }
+
+output "workload_identity_aws_role_name" {
+  description = "The AWS IAM role name permitted to authenticate via Workload Identity Federation."
+  value       = module.iam.workload_identity_aws_role_name
+}

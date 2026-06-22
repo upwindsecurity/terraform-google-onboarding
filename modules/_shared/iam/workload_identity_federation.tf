@@ -2,6 +2,20 @@ locals {
   timestamp       = formatdate("YYYYMMDD-hhmm", timestamp())
   wif_pool_id     = "${local.org_id_sanitized}-${local.timestamp}"
   wif_provider_id = "${local.org_id_sanitized}-aws"
+
+  wif_org_session_assertion_enabled = var.workload_identity_aws_role_name != ""
+
+  wif_attribute_mapping = local.wif_org_session_assertion_enabled ? {
+    "google.subject"        = "assertion.arn"
+    "attribute.aws_account" = "assertion.account"
+    "attribute.aws_role"    = "assertion.arn.extract('assumed-role/{role}/')"
+    "attribute.aws_session" = "assertion.arn.extract('assumed-role/{role_and_session}').extract('/{session}')"
+    } : {
+    "google.subject"        = "assertion.arn"
+    "attribute.aws_account" = "assertion.account"
+  }
+
+  wif_attribute_condition = local.wif_org_session_assertion_enabled ? "assertion.account == '${var.workload_identity_trusted_account}' && attribute.aws_role == '${var.workload_identity_aws_role_name}' && attribute.aws_session == '${var.upwind_organization_id}'" : "assertion.account == '${var.workload_identity_trusted_account}'"
 }
 
 # This pool needs a timestamp, as GCP uses soft-deletion for WIF pools
@@ -35,12 +49,9 @@ resource "google_iam_workload_identity_pool_provider" "aws" {
   display_name                       = "Upwind AWS Provider"
   description                        = "Identity pool provider for Upwind AWS workloads"
 
-  attribute_mapping = {
-    "google.subject"        = "assertion.arn"
-    "attribute.aws_account" = "assertion.account"
-  }
+  attribute_mapping = local.wif_attribute_mapping
 
-  attribute_condition = "assertion.account == '${var.workload_identity_trusted_account}'"
+  attribute_condition = local.wif_attribute_condition
 
   aws {
     account_id = var.workload_identity_trusted_account
@@ -58,7 +69,7 @@ resource "google_iam_workload_identity_pool_provider" "aws" {
 resource "google_service_account_iam_member" "management_workload_identity" {
   service_account_id = google_service_account.upwind_management_sa.id
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
+  member             = local.wif_org_session_assertion_enabled ? "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_role/${var.workload_identity_aws_role_name}" : "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.upwind_management_sa]
 }
 
@@ -66,7 +77,7 @@ resource "google_service_account_iam_member" "management_workload_identity" {
 resource "google_service_account_iam_member" "management_token_creator" {
   service_account_id = google_service_account.upwind_management_sa.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
+  member             = local.wif_org_session_assertion_enabled ? "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_role/${var.workload_identity_aws_role_name}" : "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.upwind_management_sa]
 }
 
@@ -75,7 +86,7 @@ resource "google_service_account_iam_member" "cloudscanner_workload_identity" {
   count              = var.enable_cloudscanners ? 1 : 0
   service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
+  member             = local.wif_org_session_assertion_enabled ? "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_role/${var.workload_identity_aws_role_name}" : "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.cloudscanner_sa[0]]
 }
 
@@ -84,6 +95,6 @@ resource "google_service_account_iam_member" "cloudscanner_token_creator" {
   count              = var.enable_cloudscanners ? 1 : 0
   service_account_id = google_service_account.cloudscanner_sa[0].id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
+  member             = local.wif_org_session_assertion_enabled ? "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_role/${var.workload_identity_aws_role_name}" : "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/attribute.aws_account/${var.workload_identity_trusted_account}"
   depends_on         = [google_service_account.cloudscanner_sa[0]]
 }

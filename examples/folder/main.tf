@@ -13,7 +13,6 @@ module "upwind_organization_onboarding" {
   gcp_organization_id         = var.gcp_organization_id
   upwind_orchestrator_project = var.upwind_orchestrator_project
   workload_identity_trusted_account = "111111111111"
-
   # Optional configuration
   enable_cloudscanners                = true
   scanner_client_id                   = var.scanner_client_id

@@ -94,6 +94,11 @@ output "google_iam_workload_identity_pool_provider" {
   value       = google_iam_workload_identity_pool_provider.aws
 }
 
+output "workload_identity_aws_role_name" {
+  description = "The AWS IAM role name permitted to authenticate via Workload Identity Federation."
+  value       = var.workload_identity_aws_role_name
+}
+
 ### Permissions
 
 output "storage_read_permissions" {

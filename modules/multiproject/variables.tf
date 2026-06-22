@@ -70,6 +70,17 @@ variable "workload_identity_trusted_account" {
   }
 }
 
+variable "workload_identity_aws_role_name" {
+  type        = string
+  default     = ""
+  description = "Optional AWS IAM role name Upwind assumes when federating to GCP. When set, WIF enforces that the assumed-role name and STS session (Upwind organization ID) match. When empty, only the trusted AWS account is validated."
+
+  validation {
+    condition     = var.workload_identity_aws_role_name == "" || can(regex("^[\\w+=,.@-]{1,64}$", var.workload_identity_aws_role_name))
+    error_message = "The workload identity AWS role name must be empty or 1-64 characters containing only alphanumeric characters and +=,.@-_."
+  }
+}
+
 # endregion upwind
 
 # region google
