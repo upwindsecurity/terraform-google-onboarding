@@ -66,8 +66,10 @@ variable "upwind_organization_id" {
   type        = string
 
   validation {
-    condition     = can(regex("org_[a-zA-Z0-9]{1,}", var.upwind_organization_id))
-    error_message = "The Upwind organization ID must start with 'org_' followed by alphanumeric characters."
+    condition = (
+      can(regex("org_[a-zA-Z0-9]{1,18}$", var.upwind_organization_id))
+    )
+    error_message = "The Upwind organization ID must start with 'org_' followed by 1-18 alphanumeric characters."
   }
 }
 

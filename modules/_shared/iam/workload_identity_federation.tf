@@ -1,17 +1,24 @@
 locals {
-  timestamp = formatdate("YYYYMMDD-hhmm", timestamp())
+  timestamp       = formatdate("YYYYMMDD-hhmm", timestamp())
+  wif_pool_id     = "${local.org_id_sanitized}-${local.timestamp}"
+  wif_provider_id = "${local.org_id_sanitized}-aws"
 }
 
 # This pool needs a timestamp, as GCP uses soft-deletion for WIF pools
 # This allows us to create a new pool in an apply-destroy-apply cycle
 resource "google_iam_workload_identity_pool" "main" {
-  workload_identity_pool_id = "upwind-${local.org_id_truncated}-pool-${local.timestamp}"
+  workload_identity_pool_id = local.wif_pool_id
   project                   = var.workload_identity_pool_project == "" ? local.project : var.workload_identity_pool_project
   display_name              = "Upwind Identity Pool"
   description               = "Identity pool for external Upwind workloads"
   disabled                  = false
 
   lifecycle {
+    precondition {
+      condition     = length(local.wif_pool_id) <= 32
+      error_message = "Workload Identity Pool ID '${local.wif_pool_id}' exceeds GCP's 32-character limit. The Upwind organization ID must be at most 18 characters after the 'org_' prefix."
+    }
+
     # Ignore changes to the pool ID after creation
     # This prevents recreation on subsequent applies while allowing initial creation with timestamp
     ignore_changes = [workload_identity_pool_id]
@@ -23,7 +30,7 @@ resource "google_iam_workload_identity_pool" "main" {
 
 resource "google_iam_workload_identity_pool_provider" "aws" {
   workload_identity_pool_id          = google_iam_workload_identity_pool.main.workload_identity_pool_id
-  workload_identity_pool_provider_id = "upwind-${local.org_id_truncated}-aws-provider"
+  workload_identity_pool_provider_id = local.wif_provider_id
   project                            = var.workload_identity_pool_project == "" ? local.project : var.workload_identity_pool_project
   display_name                       = "Upwind AWS Provider"
   description                        = "Identity pool provider for Upwind AWS workloads"
@@ -37,6 +44,13 @@ resource "google_iam_workload_identity_pool_provider" "aws" {
 
   aws {
     account_id = var.workload_identity_trusted_account
+  }
+
+  lifecycle {
+    precondition {
+      condition     = length(local.wif_provider_id) <= 32
+      error_message = "Workload Identity Pool Provider ID '${local.wif_provider_id}' exceeds GCP's 32-character limit. The Upwind organization ID must be at most 28 characters after the 'org_' prefix."
+    }
   }
 }
 
