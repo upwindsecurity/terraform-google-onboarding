@@ -14,6 +14,5 @@ module "iam" {
   google_service_account_display_name = var.google_service_account_display_name
   workload_identity_pool_project      = var.workload_identity_pool_project
   workload_identity_trusted_account   = var.workload_identity_trusted_account
-  workload_identity_aws_role_name     = var.workload_identity_aws_role_name
   is_dev                              = var.is_dev
 }

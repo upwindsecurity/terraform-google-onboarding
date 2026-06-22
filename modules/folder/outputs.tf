@@ -33,11 +33,6 @@ output "workload_identity_provider_name" {
   value       = "projects/${data.google_project.current.number}/locations/global/workloadIdentityPools/${module.iam.google_iam_workload_identity_pool.workload_identity_pool_id}/providers/${module.iam.google_iam_workload_identity_pool_provider.workload_identity_pool_provider_id}"
 }
 
-output "workload_identity_aws_role_name" {
-  description = "The AWS IAM role name permitted to authenticate via Workload Identity Federation."
-  value       = module.iam.workload_identity_aws_role_name
-}
-
 output "all_folder_projects" {
   description = "List of all folder projects"
   value       = local.all_folder_projects
